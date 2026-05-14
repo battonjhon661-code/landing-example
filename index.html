@@ -1127,6 +1127,26 @@
       .footer__logo { font-size: 44px; }
     }
 
+    /* ─── Hero entrance animations ───────────────────────── */
+    @keyframes heroImgIn {
+      from { opacity: 0; transform: scale(1.06); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .hero__bg-img {
+      animation: heroImgIn 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    @keyframes btnFadeIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero__float-btn:nth-child(2) { animation: floatDrift 6.2s ease-in-out infinite, btnFadeIn 0.6s 0.4s ease both; }
+    .hero__float-btn:nth-child(3) { animation: floatDrift 7s   ease-in-out infinite, btnFadeIn 0.6s 0.55s ease both; }
+    .hero__float-btn:nth-child(4) { animation: floatDrift 5.8s ease-in-out infinite, btnFadeIn 0.6s 0.7s ease both; }
+    .hero__float-btn:nth-child(5) { animation: floatDrift 6.8s ease-in-out infinite, btnFadeIn 0.6s 0.85s ease both; }
+    .hero__float-btn:nth-child(6) { animation: floatDrift 6.4s ease-in-out infinite, btnFadeIn 0.6s 1s ease both; }
+    .hero__float-btn:nth-child(7) { animation: floatDrift 7.2s ease-in-out infinite, btnFadeIn 0.6s 1.15s ease both; }
+
     /* ─── Hidden mobile stats ─────────────────────────────── */
     .hero__stats-mobile { display: none; }
     @media (max-width: 768px) {
@@ -1157,35 +1177,47 @@
       transform: translateY(0) scale(1);
     }
 
-    .hero__preview-inner {
+    .hero__preview-item {
       display: flex;
-      gap: 8px;
-      height: 300px;
+      align-items: center;
+      gap: 16px;
+      padding: 10px;
+      border-radius: 8px;
     }
 
-    .hero__preview-main-img {
-      flex: 1;
+    .hero__preview-thumb {
+      width: 130px;
+      height: 78px;
       border-radius: 8px;
       object-fit: cover;
-      min-width: 0;
-      height: 100%;
+      flex-shrink: 0;
       display: block;
     }
 
-    .hero__preview-sides {
-      width: 176px;
-      flex-shrink: 0;
+    .hero__preview-text {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
+      min-width: 0;
+    }
+    .hero__preview-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #0a0a0a;
+      letter-spacing: -0.2px;
+      line-height: 1.2;
+    }
+    .hero__preview-desc {
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(0,0,0,0.4);
+      line-height: 1.4;
     }
 
-    .hero__preview-side {
-      flex: 1;
-      border-radius: 6px;
-      object-fit: cover;
-      width: 100%;
-      display: block;
+    .hero__preview-divider {
+      height: 1px;
+      background: rgba(0,0,0,0.07);
+      margin: 0 10px;
     }
 
     @media (max-width: 768px) {
@@ -1263,12 +1295,27 @@
 
     <!-- click preview panel -->
     <div class="hero__preview" id="hero-preview" aria-hidden="true">
-      <div class="hero__preview-inner">
-        <img class="hero__preview-main-img" src="" alt="">
-        <div class="hero__preview-sides">
-          <img class="hero__preview-side" src="" alt="">
-          <img class="hero__preview-side" src="" alt="">
-          <img class="hero__preview-side" src="" alt="">
+      <div class="hero__preview-item">
+        <img class="hero__preview-thumb" src="" alt="">
+        <div class="hero__preview-text">
+          <span class="hero__preview-name"></span>
+          <span class="hero__preview-desc"></span>
+        </div>
+      </div>
+      <div class="hero__preview-divider"></div>
+      <div class="hero__preview-item">
+        <img class="hero__preview-thumb" src="" alt="">
+        <div class="hero__preview-text">
+          <span class="hero__preview-name"></span>
+          <span class="hero__preview-desc"></span>
+        </div>
+      </div>
+      <div class="hero__preview-divider"></div>
+      <div class="hero__preview-item">
+        <img class="hero__preview-thumb" src="" alt="">
+        <div class="hero__preview-text">
+          <span class="hero__preview-name"></span>
+          <span class="hero__preview-desc"></span>
         </div>
       </div>
     </div>
@@ -1589,10 +1636,15 @@
     /* ── Hero preview gallery ──────────────────────────────── */
     (function () {
       const preview = document.getElementById('hero-preview');
-      const mainImg = preview.querySelector('.hero__preview-main-img');
-      const sideImgs = preview.querySelectorAll('.hero__preview-side');
+      const items = preview.querySelectorAll('.hero__preview-item');
       const btns = document.querySelectorAll('.hero__float-btn');
       let activeBtn = null;
+
+      const labels = [
+        ['Гостиная', 'Современный интерьер'],
+        ['Спальня', 'Минималистичный стиль'],
+        ['Кухня', 'Функциональное пространство'],
+      ];
 
       btns.forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -1605,10 +1657,11 @@
             return;
           }
 
-          mainImg.src = folder + '/main.jpg';
-          sideImgs[0].src = folder + '/side1.jpg';
-          sideImgs[1].src = folder + '/side2.jpg';
-          sideImgs[2].src = folder + '/side3.jpg';
+          items.forEach((item, i) => {
+            item.querySelector('.hero__preview-thumb').src = folder + '/side' + (i + 1) + '.jpg';
+            item.querySelector('.hero__preview-name').textContent = labels[i][0];
+            item.querySelector('.hero__preview-desc').textContent = labels[i][1];
+          });
 
           preview.classList.add('visible');
           activeBtn = btn;
