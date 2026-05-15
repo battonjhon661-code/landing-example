@@ -10,7 +10,8 @@
   <style>
     /* в”Ђв”Ђв”Ђ Reset в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scrollbar-width: none; }
+    html::-webkit-scrollbar { display: none; }
 
     :root {
       --red:        #FF6568;
@@ -593,21 +594,21 @@
       pointer-events: auto;
       display: inline-flex;
       align-items: center;
-      width: 36px;
-      height: 36px;
-      padding: 0;
+      padding: 6px 14px;
       justify-content: center;
-      background: rgba(255,255,255,0.18);
-      border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.14);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.28);
       box-shadow:
         inset 0 1px 0 rgba(255,255,255,0.5),
         0 4px 16px rgba(0,0,0,0.18);
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 500;
       color: rgba(255,255,255,0.92);
       text-shadow: 0 1px 3px rgba(0,0,0,0.25);
-      letter-spacing: 0.3px;
+      letter-spacing: 0.4px;
       text-decoration: none;
       z-index: 3;
       white-space: nowrap;
@@ -1636,6 +1637,8 @@
       z-index: 5;
       margin-top: -23vh;
       pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.6s ease;
     }
     .cstack__stage,
     .cstack__footer,
@@ -1850,13 +1853,15 @@
     .services__header.fade-up {
       transform: translateX(-60px);
     }
+
   </style>
 </head>
 <body>
 
+
   <!-- в”Ђв”Ђ Preloader в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ -->
-  <div class="preloader" id="preloader">
-    <div class="preloader__circles">
+  <div class=”preloader” id=”preloader”>
+    <div class=”preloader__circles”>
       <div class="preloader__circle"></div>
       <div class="preloader__circle"></div>
       <div class="preloader__circle"></div>
@@ -1966,26 +1971,26 @@
 
     <!-- Float buttons + preview (scroll with hero, fade out) -->
     <div class="hero__overlay" id="hero-overlay">
-      <a href="#" class="hero__float-btn" data-example="example1" style="top:7%;left:4%">01</a>
-      <a href="#" class="hero__float-btn" data-example="example2" style="top:11%;left:30%">02</a>
-      <a href="#" class="hero__float-btn" data-example="example3" style="top:6%;left:60%">03</a>
-      <a href="#" class="hero__float-btn" data-example="example4" style="top:19%;right:5%">04</a>
-      <a href="#" class="hero__float-btn" data-example="example5" style="top:24%;left:10%">05</a>
-      <a href="#" class="hero__float-btn" data-example="example6" style="top:31%;left:52%">06</a>
-      <a href="#" class="hero__float-btn" data-example="example1" style="top:27%;left:76%">07</a>
-      <a href="#" class="hero__float-btn" data-example="example2" style="top:39%;left:5%">08</a>
-      <a href="#" class="hero__float-btn" data-example="example3" style="top:43%;left:33%">09</a>
-      <a href="#" class="hero__float-btn" data-example="example4" style="top:37%;right:9%">10</a>
-      <a href="#" class="hero__float-btn" data-example="example5" style="top:51%;left:17%">11</a>
-      <a href="#" class="hero__float-btn" data-example="example6" style="top:54%;left:57%">12</a>
-      <a href="#" class="hero__float-btn" data-example="example1" style="top:47%;left:81%">13</a>
-      <a href="#" class="hero__float-btn" data-example="example2" style="top:62%;left:4%">14</a>
-      <a href="#" class="hero__float-btn" data-example="example3" style="top:60%;left:41%">15</a>
-      <a href="#" class="hero__float-btn" data-example="example4" style="top:65%;right:7%">16</a>
-      <a href="#" class="hero__float-btn" data-example="example5" style="top:72%;left:21%">17</a>
-      <a href="#" class="hero__float-btn" data-example="example6" style="top:70%;left:63%">18</a>
-      <a href="#" class="hero__float-btn" data-example="example1" style="top:80%;left:7%">19</a>
-      <a href="#" class="hero__float-btn" data-example="example2" style="top:78%;left:45%">20</a>
+      <a href="#" class="hero__float-btn" data-example="example1" style="top:7%;left:4%">Душевая</a>
+      <a href="#" class="hero__float-btn" data-example="example2" style="top:11%;left:30%">Зеркало</a>
+      <a href="#" class="hero__float-btn" data-example="example3" style="top:6%;left:60%">Перегородка</a>
+      <a href="#" class="hero__float-btn" data-example="example4" style="top:19%;right:5%">Балкон</a>
+      <a href="#" class="hero__float-btn" data-example="example5" style="top:24%;left:10%">Раздвижные двери</a>
+      <a href="#" class="hero__float-btn" data-example="example6" style="top:31%;left:52%">Витрина</a>
+      <a href="#" class="hero__float-btn" data-example="example1" style="top:27%;left:76%">Стол из стекла</a>
+      <a href="#" class="hero__float-btn" data-example="example2" style="top:39%;left:5%">Стеклянная полка</a>
+      <a href="#" class="hero__float-btn" data-example="example3" style="top:43%;left:33%">Ограждение</a>
+      <a href="#" class="hero__float-btn" data-example="example4" style="top:37%;right:9%">Фасад</a>
+      <a href="#" class="hero__float-btn" data-example="example5" style="top:51%;left:17%">Зеркальная стена</a>
+      <a href="#" class="hero__float-btn" data-example="example6" style="top:54%;left:57%">Стеклянный пол</a>
+      <a href="#" class="hero__float-btn" data-example="example1" style="top:47%;left:81%">Маятниковая дверь</a>
+      <a href="#" class="hero__float-btn" data-example="example2" style="top:62%;left:4%">Купе</a>
+      <a href="#" class="hero__float-btn" data-example="example3" style="top:60%;left:41%">Панорамные окна</a>
+      <a href="#" class="hero__float-btn" data-example="example4" style="top:65%;right:7%">Козырёк</a>
+      <a href="#" class="hero__float-btn" data-example="example5" style="top:72%;left:21%">Навес</a>
+      <a href="#" class="hero__float-btn" data-example="example6" style="top:70%;left:63%">Балюстрада</a>
+      <a href="#" class="hero__float-btn" data-example="example1" style="top:80%;left:7%">Дверь-купе</a>
+      <a href="#" class="hero__float-btn" data-example="example2" style="top:78%;left:45%">Офисные перегородки</a>
 
       <div class="hero__preview" id="hero-preview" aria-hidden="true">
         <div class="hero__preview-item">
