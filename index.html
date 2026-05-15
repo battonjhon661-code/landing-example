@@ -2397,12 +2397,12 @@
             lerp(vw, cW, p) + 'px',
             lerp(heroH, cH, p) + 'px',
             lerp(0, 22, p) + 'px',
-            `0 ${lerp(0,40,p)}px ${lerp(0,80,p)}px rgba(0,0,0,0.7)`
+            'none'
           );
 
         } else if (scrollY <= p2) {
           /* Phase 2: brief pause at center */
-          setGeometry(cT+'px', cL+'px', cW+'px', cH+'px', '22px', '0 40px 80px rgba(0,0,0,0.7)');
+          setGeometry(cT+'px', cL+'px', cW+'px', cH+'px', '22px', 'none');
 
         } else if (scrollY <= p3) {
           /* Phase 3: image slides left, text fades in from right */
@@ -2413,13 +2413,13 @@
             cW + 'px',
             cH + 'px',
             '22px',
-            '0 40px 80px rgba(0,0,0,0.7)'
+            'none'
           );
           textProgress = ease(clamp((scrollY - textStart) / (p3 - textStart), 0, 1));
 
         } else {
           /* Phase 4: settled — image left, text visible */
-          setGeometry(cT+'px', lL+'px', cW+'px', cH+'px', '22px', '0 40px 80px rgba(0,0,0,0.7)');
+          setGeometry(cT+'px', lL+'px', cW+'px', cH+'px', '22px', 'none');
           textProgress = 1;
         }
 
