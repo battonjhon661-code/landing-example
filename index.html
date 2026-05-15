@@ -150,30 +150,34 @@
 
     /* ─── Hero ────────────────────────────────────────────── */
     .hero {
-      aspect-ratio: 16 / 7;
+      height: 100vh;
       width: 100%;
-      margin-top: 0;
       background: var(--black);
       position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
+      z-index: 2; /* above the fixed image so buttons stay on top */
     }
 
+    /* Image is fixed so it can morph on scroll independently */
     .hero__bg-img {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      object-fit: fill;
+      z-index: 1; /* below hero z-index:2 → buttons show above it */
+      transform-origin: center center;
+      will-change: transform, top, left, width, height, border-radius, box-shadow;
+    }
+
+    /* Hero overlay layer (grid + buttons, scrolls with hero section) */
+    .hero__overlay {
       position: absolute;
       inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: top center;
-      z-index: 0;
+      z-index: 1;
+      pointer-events: auto;
     }
-
-    .hero::after { display: none; }
-
-    /* Subtle grid on top of overlay */
-    .hero::before {
+    .hero__overlay::before {
       content: '';
       position: absolute;
       inset: 0;
@@ -182,7 +186,93 @@
         linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
       background-size: 80px 80px;
       pointer-events: none;
-      z-index: 2;
+    }
+
+    /* ─── Slide 2 (real section in document flow) ─────────── */
+    .slide2-section {
+      min-height: 100vh;
+      background: var(--black);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      border-top: 1px solid var(--surface);
+    }
+
+    .slide2__left {
+      /* empty — fixed hero image visually lands here */
+      min-height: 100vh;
+    }
+
+    .slide2__right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 72px 80px 56px;
+    }
+    .slide2__right .eyebrow { margin-bottom: 20px; }
+    .slide2__right .section__title { font-size: clamp(36px, 4.2vw, 62px); }
+    .slide2__right .section__sub { margin-top: 28px; font-size: 16px; max-width: 420px; }
+
+    .slide2__stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 48px;
+    }
+    .slide2__stat strong {
+      display: block;
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--white);
+      line-height: 1;
+    }
+    .slide2__stat span {
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 4px;
+      display: block;
+    }
+
+    .slide2__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 48px;
+      align-self: flex-start;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.22);
+      padding: 18px 32px;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .slide2__cta:hover { background: var(--red); border-color: var(--red); }
+    .slide2__cta-arrow {
+      width: 18px; height: 18px;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      transition: transform 0.3s;
+    }
+    .slide2__cta:hover .slide2__cta-arrow { transform: rotate(45deg); }
+
+    @media (max-width: 1024px) {
+      .slide2-section { grid-template-columns: 1fr; }
+      .slide2__left { display: none; }
+      .slide2__right { padding: 80px 40px; }
+    }
+    @media (max-width: 768px) {
+      .slide2__stats { gap: 24px; }
+      .slide2__stat strong { font-size: 28px; }
+      .slide2__right { padding: 60px 20px; }
     }
 
     .hero__main {
@@ -234,8 +324,20 @@
     }
 
     /* ── Floating hero buttons ──────────────────────────── */
+    .hero__btns-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      pointer-events: none;
+    }
+
     .hero__float-btn {
       position: absolute;
+      pointer-events: auto;
       display: inline-flex;
       align-items: center;
       gap: 12px;
@@ -302,6 +404,14 @@
     }
     .hero__float-btn:hover .hero__float-play {
       border-color: rgba(0,0,0,0.25);
+    }
+
+    .hero__float-num {
+      font-size: 10px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 1px;
+      min-width: 20px;
     }
 
     @media (max-width: 768px) {
@@ -1225,6 +1335,184 @@
       .hero__preview { display: none; }
     }
 
+    /* ─── Card Stack ─────────────────────────────────────────── */
+    .cstack {
+      background: transparent;
+      padding: 0 0 0;
+      position: relative;
+      z-index: 5;
+      margin-top: -23vh;
+      pointer-events: none;
+    }
+    .cstack__stage,
+    .cstack__footer,
+    .cstack__card,
+    .cstack__btn,
+    .cstack__dot { pointer-events: auto; }
+
+    .cstack__stage {
+      position: relative;
+      height: clamp(300px, 36vw, 520px);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      overflow: visible;
+    }
+
+    .cstack__card {
+      position: absolute;
+      width: clamp(300px, 70vw, 1020px);
+      height: clamp(300px, 36vw, 520px);
+      border-radius: 24px;
+      overflow: hidden;
+      cursor: pointer;
+      transition:
+        transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity   0.65s ease,
+        box-shadow 0.65s ease;
+      will-change: transform, opacity;
+      user-select: none;
+    }
+
+    .cstack__card[data-pos="0"] {
+      transform: translateX(0) rotate(0deg) scale(1);
+      z-index: 10; opacity: 1; cursor: default;
+      box-shadow: 0 48px 120px rgba(0,0,0,0.85);
+    }
+    .cstack__card[data-pos="-1"] {
+      transform: translateX(-55vw) rotate(-5deg) scale(0.9);
+      z-index: 8; opacity: 0.75;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+    }
+    .cstack__card[data-pos="1"] {
+      transform: translateX(55vw) rotate(5deg) scale(0.9);
+      z-index: 8; opacity: 0.75;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+    }
+    .cstack__card[data-pos="-2"],
+    .cstack__card[data-pos="2"],
+    .cstack__card[data-pos="hidden"] {
+      transform: translateX(0) scale(0.82);
+      z-index: 1; opacity: 0; pointer-events: none;
+    }
+
+    .cstack__card-inner {
+      width: 100%; height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 36px 40px;
+    }
+    .cstack__card-inner::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+    }
+
+    .cstack__card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      position: relative; z-index: 1;
+    }
+    .cstack__card-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.12);
+      padding: 6px 14px;
+      border-radius: 40px;
+    }
+    .cstack__card-num {
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 1px;
+    }
+
+    .cstack__card-accent {
+      position: absolute;
+      bottom: -70px; right: -70px;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      opacity: 0.11;
+      pointer-events: none;
+    }
+
+    .cstack__card-bottom { position: relative; z-index: 1; }
+    .cstack__card-name {
+      font-size: clamp(22px, 2.6vw, 42px);
+      font-weight: 700;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .cstack__card-year {
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 1px;
+    }
+
+    .cstack__card--blue   { background: linear-gradient(145deg, #0d1b3e 0%, #1a3a6a 100%); }
+    .cstack__card--red    { background: linear-gradient(145deg, #2a0a0a 0%, #4a1515 100%); }
+    .cstack__card--green  { background: linear-gradient(145deg, #0a2a10 0%, #164528 100%); }
+    .cstack__card--amber  { background: linear-gradient(145deg, #2a1a0a 0%, #473015 100%); }
+    .cstack__card--purple { background: linear-gradient(145deg, #1a0a2e 0%, #2e1050 100%); }
+
+    .cstack__card--blue   .cstack__card-accent { background: #4a80e8; }
+    .cstack__card--red    .cstack__card-accent { background: var(--red); }
+    .cstack__card--green  .cstack__card-accent { background: #4aac6a; }
+    .cstack__card--amber  .cstack__card-accent { background: #e8a030; }
+    .cstack__card--purple .cstack__card-accent { background: #9060e0; }
+
+    .cstack__footer {
+      display: none;
+    }
+    .cstack__dots { display: flex; gap: 8px; }
+    .cstack__dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--surface);
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .cstack__dot.active { background: var(--white); transform: scale(1.5); }
+    .cstack__btn {
+      width: 44px; height: 44px;
+      border: 1px solid var(--surface);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; color: var(--gray);
+      cursor: pointer; background: none; font-family: inherit;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .cstack__btn:hover {
+      color: var(--white);
+      border-color: rgba(255,255,255,0.4);
+      background: var(--ghost);
+    }
+
+    @media (max-width: 768px) {
+      .cstack { margin-top: -35vh; padding-top: 0; }
+      .cstack__card[data-pos="-1"] { transform: translateX(-55vw) rotate(-5deg) scale(0.9); opacity: 0.5; }
+      .cstack__card[data-pos="1"]  { transform: translateX(55vw)  rotate(5deg)  scale(0.9); opacity: 0.5; }
+    }
+    @media (max-width: 480px) {
+      .cstack__card { width: 86vw; height: 54vw; border-radius: 16px; }
+      .cstack__stage { height: 54vw; }
+      .cstack__card[data-pos="-1"],
+      .cstack__card[data-pos="1"] { opacity: 0; pointer-events: none; }
+    }
+
     /* ─── Scroll-triggered fade ───────────────────────────── */
     .fade-up {
       opacity: 0;
@@ -1266,59 +1554,176 @@
   </nav>
 
   <!-- ── Hero ───────────────────────────────────────────────── -->
-  <section class="hero">
-    <img class="hero__bg-img" src="assets/hero.png" alt="" />
+  <section class="hero" id="hero">
+    <img class="hero__bg-img" id="hero-img" src="assets/main.png" alt="" />
 
-    <a href="#" class="hero__float-btn" data-example="example1" style="top:18%;left:8%">
-      <span class="hero__float-play">▶</span>
-      Watch Showreel
-    </a>
-    <a href="#" class="hero__float-btn" data-example="example2" style="top:12%;right:14%">
-      <span class="hero__float-play">▶</span>
-      Our Projects
-    </a>
-    <a href="#" class="hero__float-btn" data-example="example3" style="top:55%;left:5%">
-      <span class="hero__float-play">▶</span>
-      What We Do
-    </a>
-    <a href="#" class="hero__float-btn" data-example="example4" style="bottom:22%;left:38%">
-      <span class="hero__float-play">▶</span>
-      About Studio
-    </a>
-    <a href="#" class="hero__float-btn" data-example="example5" style="top:38%;right:6%">
-      <span class="hero__float-play">▶</span>
-      Start a Project
-    </a>
-    <a href="#" class="hero__float-btn" data-example="example6" style="bottom:18%;right:18%">
-      <span class="hero__float-play">▶</span>
-      Get in Touch
-    </a>
+    <!-- Float buttons + preview (scroll with hero, fade out) -->
+    <div class="hero__overlay" id="hero-overlay">
+      <a href="#" class="hero__float-btn" data-example="example1" style="top:12%;left:10%">
+        <span class="hero__float-num">01</span>
+        <span class="hero__float-play">▶</span>
+        Watch Showreel
+      </a>
+      <a href="#" class="hero__float-btn" data-example="example2" style="top:46%;left:40%">
+        <span class="hero__float-num">02</span>
+        <span class="hero__float-play">▶</span>
+        Our Projects
+      </a>
+      <a href="#" class="hero__float-btn" data-example="example3" style="top:34%;left:60%">
+        <span class="hero__float-num">03</span>
+        <span class="hero__float-play">▶</span>
+        What We Do
+      </a>
+      <a href="#" class="hero__float-btn" data-example="example4" style="top:54%;left:66%">
+        <span class="hero__float-num">04</span>
+        <span class="hero__float-play">▶</span>
+        About Studio
+      </a>
+      <a href="#" class="hero__float-btn" data-example="example5" style="top:22%;right:5%">
+        <span class="hero__float-num">05</span>
+        <span class="hero__float-play">▶</span>
+        Start a Project
+      </a>
+      <a href="#" class="hero__float-btn" data-example="example6" style="top:54%;left:24%">
+        <span class="hero__float-num">06</span>
+        <span class="hero__float-play">▶</span>
+        Get in Touch
+      </a>
 
-    <!-- click preview panel -->
-    <div class="hero__preview" id="hero-preview" aria-hidden="true">
-      <div class="hero__preview-item">
-        <img class="hero__preview-thumb" src="" alt="">
-        <div class="hero__preview-text">
-          <span class="hero__preview-name"></span>
-          <span class="hero__preview-desc"></span>
+      <div class="hero__preview" id="hero-preview" aria-hidden="true">
+        <div class="hero__preview-item">
+          <img class="hero__preview-thumb" src="" alt="">
+          <div class="hero__preview-text">
+            <span class="hero__preview-name"></span>
+            <span class="hero__preview-desc"></span>
+          </div>
+        </div>
+        <div class="hero__preview-divider"></div>
+        <div class="hero__preview-item">
+          <img class="hero__preview-thumb" src="" alt="">
+          <div class="hero__preview-text">
+            <span class="hero__preview-name"></span>
+            <span class="hero__preview-desc"></span>
+          </div>
+        </div>
+        <div class="hero__preview-divider"></div>
+        <div class="hero__preview-item">
+          <img class="hero__preview-thumb" src="" alt="">
+          <div class="hero__preview-text">
+            <span class="hero__preview-name"></span>
+            <span class="hero__preview-desc"></span>
+          </div>
         </div>
       </div>
-      <div class="hero__preview-divider"></div>
-      <div class="hero__preview-item">
-        <img class="hero__preview-thumb" src="" alt="">
-        <div class="hero__preview-text">
-          <span class="hero__preview-name"></span>
-          <span class="hero__preview-desc"></span>
+    </div>
+  </section>
+
+  <!-- ── Card Stack (directly under hero image) ────────────────── -->
+  <section class="cstack" id="features">
+    <div class="cstack__stage" id="cstack-stage">
+
+      <div class="cstack__card cstack__card--blue" data-pos="0">
+        <div class="cstack__card-inner">
+          <div class="cstack__card-top">
+            <span class="cstack__card-tag">UX / UI Design</span>
+            <span class="cstack__card-num">01</span>
+          </div>
+          <div class="cstack__card-accent"></div>
+          <div class="cstack__card-bottom">
+            <h3 class="cstack__card-name">Nucleus Finance<br>Platform</h3>
+            <p class="cstack__card-year">2025</p>
+          </div>
         </div>
       </div>
-      <div class="hero__preview-divider"></div>
-      <div class="hero__preview-item">
-        <img class="hero__preview-thumb" src="" alt="">
-        <div class="hero__preview-text">
-          <span class="hero__preview-name"></span>
-          <span class="hero__preview-desc"></span>
+
+      <div class="cstack__card cstack__card--red" data-pos="1">
+        <div class="cstack__card-inner">
+          <div class="cstack__card-top">
+            <span class="cstack__card-tag">Branding</span>
+            <span class="cstack__card-num">02</span>
+          </div>
+          <div class="cstack__card-accent"></div>
+          <div class="cstack__card-bottom">
+            <h3 class="cstack__card-name">Vertex Identity<br>System</h3>
+            <p class="cstack__card-year">2025</p>
+          </div>
         </div>
       </div>
+
+      <div class="cstack__card cstack__card--green" data-pos="2">
+        <div class="cstack__card-inner">
+          <div class="cstack__card-top">
+            <span class="cstack__card-tag">Art Direction</span>
+            <span class="cstack__card-num">03</span>
+          </div>
+          <div class="cstack__card-accent"></div>
+          <div class="cstack__card-bottom">
+            <h3 class="cstack__card-name">Orbis<br>Commerce</h3>
+            <p class="cstack__card-year">2024</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cstack__card cstack__card--amber" data-pos="-2">
+        <div class="cstack__card-inner">
+          <div class="cstack__card-top">
+            <span class="cstack__card-tag">Marketing</span>
+            <span class="cstack__card-num">04</span>
+          </div>
+          <div class="cstack__card-accent"></div>
+          <div class="cstack__card-bottom">
+            <h3 class="cstack__card-name">Zenith<br>Campaign</h3>
+            <p class="cstack__card-year">2024</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cstack__card cstack__card--purple" data-pos="-1">
+        <div class="cstack__card-inner">
+          <div class="cstack__card-top">
+            <span class="cstack__card-tag">Dev &amp; Support</span>
+            <span class="cstack__card-num">05</span>
+          </div>
+          <div class="cstack__card-accent"></div>
+          <div class="cstack__card-bottom">
+            <h3 class="cstack__card-name">Meridian<br>App</h3>
+            <p class="cstack__card-year">2024</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="wrap">
+      <div class="cstack__footer">
+        <button class="cstack__btn" id="cstack-prev" aria-label="Previous">←</button>
+        <div class="cstack__dots" id="cstack-dots">
+          <div class="cstack__dot active" data-i="0"></div>
+          <div class="cstack__dot" data-i="1"></div>
+          <div class="cstack__dot" data-i="2"></div>
+          <div class="cstack__dot" data-i="3"></div>
+          <div class="cstack__dot" data-i="4"></div>
+        </div>
+        <button class="cstack__btn" id="cstack-next" aria-label="Next">→</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Slide 2: real section, image morphs into left column ─ -->
+  <section class="slide2-section" id="slide2">
+    <div class="slide2__left"></div>
+    <div class="slide2__right">
+      <p class="eyebrow eyebrow--double" data-text="OurApproach">OurApproach</p>
+      <h2 class="section__title">Design that<br>drives real<br>results</h2>
+      <p class="section__sub">We combine design precision with strategic thinking to create digital experiences that connect brands with their audiences and drive measurable growth.</p>
+      <div class="slide2__stats">
+        <div class="slide2__stat"><strong>9+</strong><span>Years</span></div>
+        <div class="slide2__stat"><strong>120+</strong><span>Projects</span></div>
+        <div class="slide2__stat"><strong>48</strong><span>Awards</span></div>
+      </div>
+      <a href="#work" class="slide2__cta">
+        See our work
+        <span class="slide2__cta-arrow">→</span>
+      </a>
     </div>
   </section>
 
@@ -1694,6 +2099,59 @@
       });
     })();
 
+    /* ── Card Stack ─────────────────────────────────────────── */
+    (function () {
+      const cards = Array.from(document.querySelectorAll('.cstack__card'));
+      const dots  = Array.from(document.querySelectorAll('.cstack__dot'));
+      const n = cards.length;
+      let current = 0;
+      let timer;
+
+      function setPositions(activeIdx) {
+        cards.forEach((card, i) => {
+          const raw = ((i - activeIdx) % n + n) % n;
+          let pos;
+          if      (raw === 0)     pos = '0';
+          else if (raw === 1)     pos = '1';
+          else if (raw === 2)     pos = '2';
+          else if (raw === n - 1) pos = '-1';
+          else if (raw === n - 2) pos = '-2';
+          else                    pos = 'hidden';
+          card.dataset.pos = pos;
+        });
+        dots.forEach((d, i) => d.classList.toggle('active', i === activeIdx));
+      }
+
+      function goTo(i) {
+        current = ((i % n) + n) % n;
+        setPositions(current);
+      }
+
+      /* click a side card to bring it front */
+      cards.forEach((card, i) => {
+        card.addEventListener('click', () => {
+          if (card.dataset.pos !== '0') { reset(); goTo(i); start(); }
+        });
+      });
+
+      dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => { reset(); goTo(i); start(); });
+      });
+
+      document.getElementById('cstack-prev').addEventListener('click', () => { reset(); goTo(current - 1); start(); });
+      document.getElementById('cstack-next').addEventListener('click', () => { reset(); goTo(current + 1); start(); });
+
+      function start() { timer = setInterval(() => goTo(current + 1), 3500); }
+      function reset() { clearInterval(timer); }
+
+      const stage = document.getElementById('cstack-stage');
+      stage.addEventListener('mouseenter', reset);
+      stage.addEventListener('mouseleave', start);
+
+      setPositions(0);
+      start();
+    })();
+
     /* ── Scroll fade-up ─────────────────────────────────────── */
     (function () {
       const els = document.querySelectorAll('.fade-up');
@@ -1707,6 +2165,108 @@
       }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
       els.forEach(el => io.observe(el));
     })();
+
+    /* ── Hero image scroll morph ──── */
+    (function () {
+      const heroEl  = document.getElementById('hero');
+      const img     = document.getElementById('hero-img');
+      const overlay = document.getElementById('hero-overlay');
+      if (!heroEl || !img || !overlay) return;
+
+      function ease(t) { return t < 0.5 ? 2*t*t : -1 + (4-2*t)*t; }
+      function lerp(a, b, t) { return a + (b-a)*t; }
+      function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+      function update() {
+        const scrollY = window.scrollY;
+        const heroH   = heroEl.offsetHeight;
+        const vh      = window.innerHeight;
+        const vw      = window.innerWidth;
+
+        /* ── Phase targets ─────────────────────────────── */
+        /* Center: image shrinks to middle of screen */
+        const cW = vw * 0.52, cH = vh * 0.62;
+        const cL = (vw - cW) / 2, cT = (vh - cH) / 2;
+
+        /* Left column: final position next to slide2 text */
+        const lW = vw * 0.42, lH = vh * 0.76;
+        const lL = vw * 0.04, lT = vh * 0.10;
+
+        const p1 = heroH;          /* end: image arrives at center */
+        const p2 = heroH + 220;    /* end: 3d rotation settles */
+        const p3 = heroH + 660;    /* end: image arrives at left column */
+
+        let top, left, width, height, radius, ry = 0, rx = 0;
+
+        if (scrollY <= p1) {
+          /* Phase 1 — full screen → center, rotate in */
+          const p = ease(clamp(scrollY / p1, 0, 1));
+          top    = lerp(0,     cT, p);
+          left   = lerp(0,     cL, p);
+          width  = lerp(vw,    cW, p);
+          height = lerp(heroH, cH, p);
+          radius = lerp(0,     22, p);
+          ry     = 0;
+          rx     = 0;
+        } else if (scrollY <= p2) {
+          /* Phase 2 — hover center */
+          const p = ease(clamp((scrollY - p1) / (p2 - p1), 0, 1));
+          top = cT; left = cL; width = cW; height = cH; radius = 22;
+          ry  = 0;
+          rx  = 0;
+        } else if (scrollY <= p3) {
+          /* Phase 3 — center → left column, slight counter-tilt */
+          const p = ease(clamp((scrollY - p2) / (p3 - p2), 0, 1));
+          top    = lerp(cT, lT, p);
+          left   = lerp(cL, lL, p);
+          width  = lerp(cW, lW, p);
+          height = lerp(cH, lH, p);
+          radius = lerp(22, 16, p);
+          ry     = 0;
+          rx     = 0;
+        } else {
+          /* Phase 4 — drift up as slide2 scrolls away */
+          const drift = Math.max(0, scrollY - p3);
+          top = lT - drift; left = lL;
+          width = lW; height = lH; radius = 16; ry = 0;
+        }
+
+        /* Dynamic shadow simulating 3D depth */
+        const shadowX    = -ry * 3;
+        const shadowBlur = 64 + Math.abs(ry) * 4;
+        const shadowY    = 28 + Math.abs(rx) * 4;
+
+        img.style.position     = 'fixed';
+        img.style.top          = top    + 'px';
+        img.style.left         = left   + 'px';
+        img.style.width        = width  + 'px';
+        img.style.height       = height + 'px';
+        img.style.borderRadius = radius + 'px';
+        img.style.boxShadow    = `${shadowX}px ${shadowY}px ${shadowBlur}px rgba(0,0,0,0.8)`;
+
+        if (scrollY > 5) {
+          /* Cancel CSS animation so it stops overriding JS transform */
+          if (img.style.animation !== 'none') {
+            img.style.animation = 'none';
+            img.style.opacity   = '1';
+          }
+          img.style.transform = `perspective(1100px) rotateY(${ry}deg) rotateX(${rx}deg)`;
+        } else {
+          img.style.transform = '';
+        }
+        img.style.visibility   = (top + height < 0) ? 'hidden' : 'visible';
+
+        /* Overlay fades as hero scrolls out */
+        const alpha = clamp(1 - (scrollY / heroH) / 0.65, 0, 1);
+        overlay.style.opacity       = alpha;
+        overlay.style.pointerEvents = alpha < 0.05 ? 'none' : 'auto';
+      }
+
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
+
   </script>
 </body>
 </html>
