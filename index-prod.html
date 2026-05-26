@@ -4,20 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Стекло — Современные интерьеры</title>
-  <!-- Yandex.Metrika counter -->
-  <script type="text/javascript">
-    (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=109396212', 'ym');
-
-    ym(109396212, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-  </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/109396212" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-  <!-- /Yandex.Metrika counter -->
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@200;300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -41,10 +27,6 @@
       --fg-warm-faint:   rgba(233,230,224,.28);
       --accent-warm:     oklch(0.78 0.06 70);
       --accent-warm-dim: oklch(0.78 0.06 70 / .35);
-      --nav-circle-size: 60px;
-      --nav-margin:      28px;
-      --tx: 0px;
-      --ty: 0px;
     }
 
     body {
@@ -60,184 +42,17 @@
     img, svg { display: block; }
 
     /* ─── Navigation ─────────────────────────────────────────── */
-    .nav-wrap {
-      position: fixed;
-      left: 0; right: 0; top: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: center;
-      pointer-events: none;
-    }
     .nav {
-      pointer-events: auto;
-      position: relative;
-      background: transparent;
-      color: var(--fg-warm);
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 90px;
+      padding: 0 56px;
       display: grid;
       grid-template-columns: auto 1fr auto;
       align-items: center;
       gap: 48px;
-      padding: 20px 56px;
-      width: min(1760px, 100vw);
-      height: auto;
-      border-radius: 0;
-      overflow: hidden;
-      box-shadow: 0 0 0 rgba(0,0,0,0);
-      transform: translate(0, 0);
-      will-change: width, height, transform, border-radius;
-      transition:
-        width .75s cubic-bezier(.7,.0,.2,1),
-        height .75s cubic-bezier(.7,.0,.2,1),
-        padding .75s cubic-bezier(.7,.0,.2,1),
-        gap .55s cubic-bezier(.7,.0,.2,1),
-        border-radius .75s cubic-bezier(.7,.0,.2,1),
-        transform .85s cubic-bezier(.7,.0,.2,1),
-        box-shadow .5s ease .3s;
     }
-    /* Collapsed: морфится в кружок и уплывает в угол */
-    .nav-wrap.collapsed .nav {
-      width: var(--nav-circle-size);
-      height: var(--nav-circle-size);
-      padding: 0;
-      gap: 0;
-      border-radius: 999px;
-      transform: translate(var(--tx, 0px), var(--ty, 0px));
-      background: rgba(23,23,23,0.96);
-      box-shadow: 0 18px 40px -12px rgba(0,0,0,.55), 0 2px 6px rgba(0,0,0,.3);
-      cursor: pointer;
-    }
-    .nav-wrap.collapsed .nav:hover { background: rgba(40,40,40,0.98); }
-    /* Контент бара исчезает при сворачивании */
-    .nav__logo, .nav__links, .nav__phone {
-      transition: opacity .22s ease .15s, transform .35s cubic-bezier(.7,0,.2,1);
-    }
-    .nav-wrap.collapsed .nav__logo,
-    .nav-wrap.collapsed .nav__links,
-    .nav-wrap.collapsed .nav__phone {
-      opacity: 0;
-      transition: opacity .18s ease;
-    }
-    .nav-wrap.collapsed .nav__logo  { transform: translateX(-12px); }
-    .nav-wrap.collapsed .nav__phone { transform: translateX(12px); }
-    /* 3 полоски / гамбургер — появляются после морфа */
-    .nav__burger {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .25s ease;
-    }
-    .nav-wrap.collapsed .nav__burger {
-      opacity: 1;
-      transition: opacity .3s ease .45s;
-    }
-    .nav__burger i {
-      position: absolute;
-      width: 22px; height: 1.5px;
-      background: currentColor;
-      border-radius: 2px;
-      left: 50%; margin-left: -11px;
-      transition: top .35s cubic-bezier(.7,0,.2,1), transform .35s cubic-bezier(.7,0,.2,1), opacity .2s ease;
-    }
-    .nav__burger i:nth-child(1) { top: calc(50% - 7px); }
-    .nav__burger i:nth-child(2) { top: 50%; margin-top: -.75px; }
-    .nav__burger i:nth-child(3) { top: calc(50% + 7px); }
-    /* X-состояние при открытом меню */
-    .nav-wrap.collapsed.nav-open .nav__burger i:nth-child(1) { top: 50%; transform: rotate(45deg); }
-    .nav-wrap.collapsed.nav-open .nav__burger i:nth-child(2) { opacity: 0; }
-    .nav-wrap.collapsed.nav-open .nav__burger i:nth-child(3) { top: 50%; transform: rotate(-45deg); }
-    /* Пульс при первом сворачивании */
-    @keyframes navPulse {
-      0%   { box-shadow: 0 18px 40px -12px rgba(0,0,0,.55), 0 0 0 0 rgba(233,230,224,.3); }
-      70%  { box-shadow: 0 18px 40px -12px rgba(0,0,0,.55), 0 0 0 16px rgba(233,230,224,0); }
-      100% { box-shadow: 0 18px 40px -12px rgba(0,0,0,.55), 0 0 0 0 rgba(233,230,224,0); }
-    }
-    .nav-wrap.collapsed.just-collapsed .nav { animation: navPulse 1.3s ease-out 1 .35s; }
-    /* Затемняющая подложка меню */
-    .nav-sheet {
-      position: fixed;
-      inset: 0;
-      z-index: 105;
-      background: rgba(10,10,10,.55);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .35s ease;
-    }
-    .nav-sheet.show { opacity: 1; pointer-events: auto; }
-    /* Карточка-меню */
-    .nav-sheet__card {
-      position: absolute;
-      right: var(--nav-margin);
-      bottom: calc(var(--nav-margin) + var(--nav-circle-size) + 14px);
-      width: min(340px, calc(100vw - 56px));
-      background: rgba(23,23,23,0.97);
-      border: 1px solid rgba(255,255,255,.07);
-      border-radius: 20px;
-      padding: 20px 20px 16px;
-      transform-origin: 100% 100%;
-      transform: scale(.92) translateY(8px);
-      opacity: 0;
-      transition: opacity .3s ease, transform .35s cubic-bezier(.2,.8,.2,1);
-      box-shadow: 0 30px 60px -20px rgba(0,0,0,.65), 0 4px 14px rgba(0,0,0,.35);
-    }
-    .nav-sheet.show .nav-sheet__card { opacity: 1; transform: scale(1) translateY(0); }
-    .nav-sheet__head {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      padding-bottom: 14px;
-      border-bottom: 1px solid rgba(255,255,255,.07);
-      margin-bottom: 8px;
-    }
-    .nav-sheet__head .mark {
-      font-family: 'Manrope', sans-serif;
-      font-weight: 300;
-      letter-spacing: .38em;
-      font-size: 14px;
-      color: var(--fg-warm);
-    }
-    .nav-sheet__head .sub {
-      font-size: 9px;
-      letter-spacing: .28em;
-      color: var(--fg-warm-dim);
-      text-transform: uppercase;
-    }
-    .nav-sheet__links { display: flex; flex-direction: column; }
-    .nav-sheet__links a {
-      color: var(--fg-warm);
-      text-decoration: none;
-      font-family: 'Manrope', sans-serif;
-      font-size: 12.5px;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      padding: 13px 8px;
-      border-radius: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      transition: background-color .2s ease, padding-left .2s ease;
-    }
-    .nav-sheet__links a:hover { background: rgba(255,255,255,.05); padding-left: 14px; }
-    .nav-sheet__links .num { font-size: 10px; color: var(--fg-warm-dim); letter-spacing: .18em; }
-    .nav-sheet__foot {
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid rgba(255,255,255,.07);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: 'Manrope', sans-serif;
-      font-size: 11px;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--fg-warm-dim);
-    }
-    .nav-sheet__foot a { color: var(--fg-warm); text-decoration: none; }
 
     .nav__logo {
       display: flex;
@@ -262,29 +77,11 @@
       white-space: nowrap;
     }
     .nav__links {
-      position: relative;
       display: flex;
       justify-content: center;
       gap: 6px;
     }
-    .nav__pill {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      height: 36px;
-      background: transparent;
-      border: none;
-      border-radius: 999px;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0;
-      transition: left 0.42s cubic-bezier(0.22, 1, 0.36, 1),
-                  width 0.42s cubic-bezier(0.22, 1, 0.36, 1),
-                  opacity 0.2s ease;
-    }
     .nav__links a {
-      position: relative;
-      z-index: 1;
       font-family: 'Manrope', sans-serif;
       color: var(--fg-warm-dim);
       text-decoration: none;
@@ -294,10 +91,14 @@
       padding: 10px 18px;
       border-radius: 999px;
       white-space: nowrap;
-      transition: color .2s ease;
+      transition: color .15s, background .15s;
     }
     .nav__links a:hover { color: var(--fg-warm); }
-    .nav__links a.active { color: var(--fg-warm); }
+    .nav__links a.active {
+      color: var(--fg-warm);
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.10);
+    }
     .nav__phone {
       font-family: 'Manrope', sans-serif;
       font-size: 15px;
@@ -314,7 +115,6 @@
       width: 100%;
       background: url('assets/background.png') center center / cover no-repeat;
       position: relative;
-      z-index: 1;
     }
 
     /* Image sits inside hero, scrolls with it */
@@ -346,7 +146,8 @@
       position: absolute;
       inset: 0;
       background-image:
-        linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 30%);
+        linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 25%, rgba(0,0,0,0.2) 42%, transparent 58%),
+        linear-gradient(to top,   rgba(0,0,0,0.4) 0%, transparent 30%);
       pointer-events: none;
     }
 
@@ -376,38 +177,25 @@
       margin-bottom: 32px;
     }
     .hero__heading {
-      font-family: 'Manrope', sans-serif;
-      font-weight: 400;
-      font-size: clamp(46px, 6.2vw, 98px);
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(72px, 9.5vw, 148px);
       line-height: .94;
-      letter-spacing: .01em;
+      letter-spacing: .005em;
       color: var(--fg-warm);
       text-transform: uppercase;
     }
-    .hero__heading-line {
-      display: block;
-      opacity: 0;
+    .hero__heading-line { display: block; }
+    .hero__heading-line span {
+      display: inline-block;
+      animation: heroRise .9s cubic-bezier(.2,.7,.2,1) backwards;
     }
-    @keyframes wordFlash {
-      0%   { opacity: 0; filter: brightness(0) blur(5px); text-shadow: none; }
-      10%  { opacity: 1; filter: brightness(13) blur(0px);
-             text-shadow: 0 0 55px rgba(233,230,224,0.95), 0 0 110px rgba(233,230,224,0.5); }
-      22%  { opacity: 1; filter: brightness(1.8);
-             text-shadow: 0 0 12px rgba(233,230,224,0.2); }
-      34%  { opacity: 1; filter: brightness(9);
-             text-shadow: 0 0 45px rgba(233,230,224,0.85), 0 0 90px rgba(233,230,224,0.4); }
-      58%  { opacity: 1; filter: brightness(2);
-             text-shadow: 0 0 20px rgba(233,230,224,0.35); }
-      100% { opacity: 1; filter: brightness(1); text-shadow: none; }
-    }
-    .hero__heading--visible .hero__heading-line:nth-child(1) {
-      animation: wordFlash 1.0s ease-out 0.45s both;
-    }
-    .hero__heading--visible .hero__heading-line:nth-child(2) {
-      animation: wordFlash 1.0s ease-out 0.82s both;
-    }
-    .hero__heading--visible .hero__heading-line:nth-child(3) {
-      animation: wordFlash 1.0s ease-out 1.19s both;
+    .hero__heading-line:nth-child(1) span { animation-delay: .15s; }
+    .hero__heading-line:nth-child(2) span { animation-delay: .30s; }
+    .hero__heading-line:nth-child(3) span { animation-delay: .45s; }
+    @keyframes heroRise {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
     .hero__rule {
       width: 60px; height: 1px;
@@ -560,18 +348,14 @@
     .hero__callout-desc { font-size: 12px; font-weight: 400; color: rgba(255,255,255,0.52); line-height: 1.4; }
 
     /* ─── Block 2: Slide 2 ───────────────────────────────────── */
-    .parallax-stack {
-      position: relative;
-    }
     #slide2 {
       height: 110vh;
       background: url('assets/background-second-0.png') center center / cover no-repeat;
       display: flex;
       align-items: center;
-      padding-left: 15%;
+      padding-left: 8%;
       position: relative;
       overflow: hidden;
-      z-index: 1;
     }
     #slide2::before {
       content: '';
@@ -627,11 +411,8 @@
     /* ─── Block 3: Before / After ────────────────────────────── */
     .vs-section {
       padding: 120px 0;
-      background: #0a0a0a;
-      position: relative;
-      z-index: 10;
-      margin-top: -100px;
-      box-shadow: 0 -20px 60px rgba(0,0,0,0.9);
+      background: var(--black);
+      border-top: 1px solid var(--surface);
     }
     .vs-wrap {
       max-width: 1600px;
@@ -785,7 +566,7 @@
     .vs-card__cta:hover { border-color: var(--white); color: var(--white); }
 
     /* ─── Block 5: Projects Section ─────────────────────────── */
-    .projects-section { background: #0c0c0d; position: relative; overflow: hidden; z-index: 1; }
+    .projects-section { background: #0c0c0d; position: relative; overflow: hidden; }
     .projects-section::after {
       content: "";
       position: absolute;
@@ -1160,18 +941,12 @@
     .fade-up.visible { opacity: 1; transform: translateX(0); }
 
     /* ─── Block 6: Mirror Statement ─────────────────────────── */
-    .mirror-standalone-wrap {
-      position: relative;
-    }
-    .cstack-wrap {
-      position: relative;
-    }
     .mirror-section {
+      position: relative;
       min-height: 100vh;
       background: #0a0a0a;
       display: flex;
       align-items: center;
-      will-change: transform;
     }
     .mirror-section::before {
       content: "";
@@ -1211,11 +986,6 @@
     .mirror-section.mirror-visible .mirror-text .section__title { opacity: 1; transform: none; transition-delay: 0.68s; }
     .mirror-section.mirror-visible .mirror-text .mirror-lead    { opacity: 1; transform: none; transition-delay: 0.88s; }
     .mirror-section.mirror-visible .mirror-text .mirror-cta     { opacity: 1; transform: none; transition-delay: 1.08s; }
-    /* instant reset on exit — no delay going out */
-    .mirror-text .eyebrow,
-    .mirror-text .section__title,
-    .mirror-text .mirror-lead,
-    .mirror-text .mirror-cta { transition-delay: 0s; }
     .mirror-inner {
       position: relative;
       z-index: 2;
@@ -1300,12 +1070,8 @@
   /* ===== Materials Block ===== */
   .mat-block {
     position: relative;
-    z-index: 2;
     width: 100%;
     overflow: hidden;
-    margin-top: -250px;
-    will-change: transform;
-    box-shadow: 0 -20px 50px rgba(0,0,0,.28);
   }
   .mat-stage {
     width: 1920px;
@@ -1316,63 +1082,92 @@
   .mat-page {
     width: 1920px;
     height: 1080px;
-    background: #f4f3ef;
+    background: #0c0c0d;
     position: relative;
     overflow: hidden;
+    display: flex;
+    align-items: center;
   }
   .mat-backdrop {
     position: absolute;
     inset: 0;
     z-index: 0;
     background:
-      radial-gradient(420px 380px at 36% 42%, rgba(0,0,0,.04), transparent 70%),
-      linear-gradient(90deg, #f4f3ef 0%, #ecebe6 45%, #e2e0db 60%, #d8d6d0 100%);
+      radial-gradient(380px 380px at 38% 44%, rgba(255,225,190,.10), transparent 70%),
+      radial-gradient(280px 260px at 30% 35%, rgba(255,210,170,.06), transparent 75%),
+      linear-gradient(90deg, #131211 0%, #0e0d0c 38%, #050505 55%, #030303 100%);
   }
   .mat-backdrop::after {
     content: "";
     position: absolute; inset: 0;
-    background: linear-gradient(90deg, transparent 0%, transparent 48%, rgba(0,0,0,.04) 60%, rgba(0,0,0,.08) 100%);
+    background: linear-gradient(90deg, transparent 0%, transparent 48%, rgba(0,0,0,.55) 55%, rgba(0,0,0,.8) 100%);
   }
   .mat-grain {
     pointer-events: none;
     position: absolute; inset: 0;
-    opacity: .04;
-    mix-blend-mode: multiply;
+    opacity: .05;
+    mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='ng'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23ng)' opacity='.6'/></svg>");
-  }
-  .mat-hero-slot {
-    position: absolute;
-    top: 0; left: 0;
-    width: 55%; height: 100%;
-    z-index: 1;
-    pointer-events: none;
   }
   .mat-cabinet-shadow {
     position: absolute;
     right: 0; top: 0; bottom: 0;
-    width: 40%;
-    background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,.04) 60%, rgba(0,0,0,.08) 100%);
+    width: 70%;
+    background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,.7) 50%, rgba(0,0,0,.95) 100%);
     z-index: 2;
     pointer-events: none;
   }
+  .mat-nav {
+    position: relative;
+    z-index: 5;
+    padding: 34px 56px 0;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 48px;
+  }
+  .mat-logo { display: flex; flex-direction: column; gap: 4px; line-height: 1; }
+  .mat-logo-mark { font-weight: 500; font-size: 24px; letter-spacing: .34em; color: #f3f1ee; white-space: nowrap; }
+  .mat-logo-sub { font-size: 9px; letter-spacing: .32em; color: #bdbab4; text-transform: uppercase; white-space: nowrap; }
+  .mat-nav-links { display: flex; justify-content: center; gap: 6px; }
+  .mat-nav-links a {
+    color: #bdbab4; text-decoration: none;
+    font-size: 11.5px; letter-spacing: .22em; text-transform: uppercase;
+    padding: 10px 18px; border-radius: 999px; white-space: nowrap;
+    transition: color .15s, background .15s;
+  }
+  .mat-nav-links a:hover { color: #f3f1ee; }
+  .mat-nav-links a.active {
+    color: #f3f1ee; background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.10);
+  }
+  .mat-cta {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 14px 22px; border-radius: 999px;
+    background: #0e0e10; border: 1px solid rgba(255,255,255,.16);
+    color: #f3f1ee; font-size: 11.5px; letter-spacing: .22em; text-transform: uppercase;
+    cursor: pointer; transition: background .15s, border-color .15s;
+  }
+  .mat-cta:hover { background: #1a1a1d; border-color: rgba(255,255,255,.28); }
+  .mat-cta .mat-arrow {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: #f3f1ee; color: #0c0c0d; display: grid; place-items: center;
+  }
+  .mat-cta .mat-arrow svg { width: 14px; height: 14px; }
   .mat-left-col {
     position: relative;
     z-index: 6;
-    padding: 0 0 0 200px;
-    width: 764px;
-    height: 1080px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    padding: 0 0 0 212px;
+    width: 680px;
   }
   .mat-crumb { font-family: 'Manrope', sans-serif; font-size: 11px; font-weight: 400; letter-spacing: .28em; text-transform: uppercase; color: #8a8782; margin-bottom: 34px; }
-  .mat-h1 { font-family: 'Manrope', sans-serif; font-weight: 400; font-size: clamp(28px, 2.8vw, 44px); line-height: 1.06; letter-spacing: .01em; text-transform: uppercase; color: #0c0c0d; }
-  .mat-lead { font-family: 'Manrope', sans-serif; margin-top: 34px; max-width: 430px; color: #5a5854; font-size: 16px; line-height: 1.55; }
+  .mat-h1 { font-family: 'Manrope', sans-serif; font-weight: 400; font-size: clamp(28px, 2.8vw, 44px); line-height: 1.06; letter-spacing: .01em; text-transform: uppercase; color: #f5f3ef; }
+  .mat-lead { font-family: 'Manrope', sans-serif; margin-top: 32px; max-width: 380px; color: #bdbab4; font-size: 16px; line-height: 1.55; }
   .mat-hint {
     margin-top: 46px;
     display: flex; align-items: center; gap: 16px;
     font-family: 'Manrope', sans-serif;
-    color: #5a5854;
+    color: #8a8782;
     font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
     animation: matHintFloat 3.2s ease-in-out infinite;
   }
@@ -1383,10 +1178,10 @@
   .mat-cursor {
     width: 42px; height: 42px;
     position: relative; flex-shrink: 0;
-    color: #0c0c0d;
+    color: #f3f1ee;
     animation: matCursorMove 2.4s ease-in-out infinite;
   }
-  .mat-cursor svg { width: 100%; height: 100%; filter: drop-shadow(0 0 6px rgba(255,255,255,.55)); }
+  .mat-cursor svg { width: 100%; height: 100%; filter: drop-shadow(0 0 6px rgba(255,210,160,.35)); }
   @keyframes matCursorMove {
     0%   { transform: translate(0,0)       rotate(-6deg); }
     25%  { transform: translate(4px,-3px)  rotate(0deg);  }
@@ -1400,7 +1195,7 @@
     left: 9px; top: 9px;
     width: 8px; height: 8px;
     border-radius: 50%;
-    border: 1.5px solid rgba(0,0,0,.5);
+    border: 1.5px solid rgba(255,210,160,.7);
     transform: translate(-50%,-50%) scale(.4);
     opacity: 0;
     animation: matTapRing 2.4s ease-out infinite;
@@ -1410,113 +1205,29 @@
     55%     { transform: scale(.3); opacity: 1; }
     100%    { transform: scale(2.4); opacity: 0; }
   }
-  /* stats */
-  .mat-stats {
-    position: absolute;
-    left: 56px; bottom: 54px;
-    display: flex; gap: 46px;
-    z-index: 6;
-  }
-  .mat-stats .mat-s { display: flex; align-items: baseline; gap: 14px; }
-  .mat-stats .mat-n { font-family: 'Manrope', sans-serif; font-weight: 300; font-size: 42px; line-height: 1; color: #0c0c0d; letter-spacing: -.01em; }
-  .mat-stats .mat-l { font-family: 'Manrope', sans-serif; color: #5a5854; font-size: 12.5px; line-height: 1.35; max-width: 170px; }
-  /* cabinet */
   .mat-cabinet {
     position: absolute;
     top: 118px; right: 56px; bottom: 54px;
-    width: 1100px;
+    width: 1060px;
+    background: linear-gradient(180deg, #0a0a0a 0%, #060606 100%);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 8px;
+    padding: 18px;
+    box-shadow: inset 0 0 40px rgba(0,0,0,.6), 0 30px 80px rgba(0,0,0,.5);
     z-index: 5;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    overflow: visible;
-  }
-  .mat-cabinet::before {
-    content: "";
-    position: absolute;
-    left: 214px; right: 60px; top: -16px; bottom: -16px;
-    background: linear-gradient(180deg, #050505 0%, #000 100%);
-    border: 1px solid rgba(0,0,0,.55);
-    border-radius: 10px;
-    box-shadow: inset 0 0 50px rgba(0,0,0,.8), 0 30px 80px rgba(0,0,0,.25);
-    z-index: 0;
-  }
-  .mat-cabinet::after {
-    content: "";
-    position: absolute;
-    left: 214px; right: 60px;
-    top: 0; bottom: 0;
-    background:
-      linear-gradient(180deg, transparent calc(25% - .5px), rgba(255,255,255,.06) calc(25% - .5px), rgba(255,255,255,.06) calc(25% + .5px), transparent calc(25% + .5px)),
-      linear-gradient(180deg, transparent calc(50% - .5px), rgba(255,255,255,.06) calc(50% - .5px), rgba(255,255,255,.06) calc(50% + .5px), transparent calc(50% + .5px)),
-      linear-gradient(180deg, transparent calc(75% - .5px), rgba(255,255,255,.06) calc(75% - .5px), rgba(255,255,255,.06) calc(75% + .5px), transparent calc(75% + .5px));
-    pointer-events: none;
-    z-index: 1;
-  }
-  /* rows */
-  .mat-row {
-    position: relative;
-    z-index: 2;
-    flex: 1;
     display: grid;
-    grid-template-columns: 130px 36px 1fr 36px;
-    align-items: stretch;
-    gap: 24px;
-    min-height: 0;
-    overflow: visible;
-  }
-  .mat-row-label {
-    display: flex;
-    align-items: center;
-    color: #0c0c0d;
-    font-family: 'Manrope', sans-serif;
-    font-size: 11px;
-    letter-spacing: .22em;
-    text-transform: uppercase;
-    padding-right: 6px;
-  }
-  .mat-row-label .mat-idx { color: #5a5854; font-weight: 400; margin-left: 6px; }
-  .mat-row-arrow {
-    align-self: center;
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    border: 1px solid rgba(0,0,0,.18);
-    background: #fff;
-    color: #0c0c0d;
-    display: grid; place-items: center;
-    cursor: pointer;
-    transition: background .15s, border-color .15s, color .15s;
-    box-shadow: 0 1px 2px rgba(0,0,0,.06);
-  }
-  .mat-row-arrow:hover { background: #0c0c0d; border-color: #0c0c0d; color: #fff; }
-  .mat-row-arrow:active { transform: scale(.94); }
-  .mat-row-arrow svg { width: 14px; height: 14px; }
-  /* track */
-  .mat-track-viewport {
-    position: relative;
-    overflow: hidden;
-    min-width: 0;
-    padding: 12px 0;
-  }
-  .mat-track {
-    position: absolute;
-    inset: 12px 0;
-    padding: 0 26px;
-    display: flex;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
     gap: 14px;
-    transition: transform .55s cubic-bezier(.65,.05,.25,1);
-    will-change: transform;
   }
-  /* cells */
   .mat-cell {
     position: relative;
-    flex: 0 0 calc((100% - 14px * 3) / 4);
     background: linear-gradient(180deg, #131313 0%, #090909 100%);
     border: 1px solid rgba(255,255,255,.06);
     border-radius: 4px;
     overflow: hidden;
     cursor: pointer;
-    transition: border-color .35s ease, transform .35s ease, opacity .45s ease, filter .45s ease;
+    transition: border-color .35s ease, transform .35s ease;
   }
   .mat-cell::before {
     content: ""; position: absolute; inset: 0;
@@ -1568,36 +1279,27 @@
     transition: filter .35s ease, transform .35s ease;
   }
   .mat-glyph { width: 88%; height: 88%; display: block; object-fit: contain; }
-  .mat-cell-bg {
-    position: absolute; inset: 0; z-index: 0; overflow: hidden;
-  }
-  .mat-cell-bg img {
-    width: 100%; height: 100%; object-fit: cover; object-position: center;
-    opacity: .65; display: block;
-    transition: opacity .35s ease;
-  }
-  .mat-cell:hover .mat-cell-bg img, .mat-cell--lit .mat-cell-bg img { opacity: .88; }
-  .mat-cell:hover { border-color: rgba(255,255,255,.55); transform: translateY(-1px); }
+  .mat-cell:hover { border-color: rgba(255,210,160,.28); transform: translateY(-1px); }
   .mat-cell:hover .mat-lamp {
-    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
-    box-shadow: 0 0 18px 4px rgba(255,255,255,.9), 0 6px 30px 8px rgba(255,255,255,.55);
+    background: linear-gradient(90deg, rgba(255,210,160,0) 0%, rgba(255,225,190,.95) 50%, rgba(255,210,160,0) 100%);
+    box-shadow: 0 0 18px 4px rgba(255,210,160,.75), 0 6px 28px 6px rgba(255,200,140,.55);
   }
   .mat-cell:hover .mat-glow {
-    background: radial-gradient(120% 80% at 50% 0%, rgba(255,255,255,.42) 0%, rgba(255,255,255,.16) 35%, rgba(255,255,255,.04) 60%, transparent 100%);
+    background: radial-gradient(120% 80% at 50% 0%, rgba(255,225,180,.42) 0%, rgba(255,195,130,.18) 35%, rgba(255,180,110,.06) 60%, transparent 100%);
   }
-  .mat-cell:hover .mat-num { color: #fff; }
-  .mat-cell:hover .mat-cell-lbl { color: rgba(245,245,245,.92); }
+  .mat-cell:hover .mat-num { color: #f3eadf; }
+  .mat-cell:hover .mat-cell-lbl { color: rgba(245,238,225,.85); }
   .mat-cell:hover .mat-cell-lbl strong { color: #fff; }
-  .mat-cell:hover .mat-item { filter: brightness(1.2) contrast(1.05); }
+  .mat-cell:hover .mat-item { filter: brightness(1.15) contrast(1.05); }
 
   /* Mat cell lit state for entrance animation */
-  .mat-cell--lit { border-color: rgba(255,255,255,.5); transform: translateY(-1px); }
+  .mat-cell--lit { border-color: rgba(255,210,160,.28); transform: translateY(-1px); }
   .mat-cell--lit .mat-lamp {
-    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.95) 50%, rgba(255,255,255,0) 100%);
-    box-shadow: 0 0 18px 4px rgba(255,255,255,.85), 0 6px 28px 6px rgba(255,255,255,.65);
+    background: linear-gradient(90deg, rgba(255,210,160,0) 0%, rgba(255,225,190,.95) 50%, rgba(255,210,160,0) 100%);
+    box-shadow: 0 0 18px 4px rgba(255,210,160,.75), 0 6px 28px 6px rgba(255,200,140,.55);
   }
   .mat-cell--lit .mat-glow {
-    background: radial-gradient(120% 80% at 50% 0%, rgba(255,255,255,.40) 0%, rgba(255,255,255,.15) 35%, rgba(255,255,255,.04) 60%, transparent 100%);
+    background: radial-gradient(120% 80% at 50% 0%, rgba(255,225,180,.42) 0%, rgba(255,195,130,.18) 35%, rgba(255,180,110,.06) 60%, transparent 100%);
   }
   .mat-cell--lit .mat-num { color: #f3eadf; }
   .mat-cell--lit .mat-cell-lbl { color: rgba(245,238,225,.85); }
@@ -1631,6 +1333,7 @@
 
   /* Mat block text entrance */
   .mat-left-col .mat-crumb,
+  .mat-left-col .mat-h1,
   .mat-left-col .mat-lead,
   .mat-left-col .mat-hint {
     opacity: 0;
@@ -1638,514 +1341,30 @@
     transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .mat-block.mat-visible .mat-crumb { opacity: 1; transform: none; transition-delay: 0.05s; }
+  .mat-block.mat-visible .mat-h1    { opacity: 1; transform: none; transition-delay: 0.22s; }
   .mat-block.mat-visible .mat-lead  { opacity: 1; transform: none; transition-delay: 0.44s; }
   .mat-block.mat-visible .mat-hint  { opacity: 1; transform: none; transition-delay: 0.68s; }
-
-  /* ── mat-h1 char slide-up ───────────────────────────────────── */
-  .mat-h1 { opacity: 1; }
-  .mat-word {
-    display: inline-block;
-    overflow: hidden;
-    vertical-align: top;
-    padding-bottom: 0.1em;
-    margin-bottom: -0.1em;
-  }
-  .mat-char {
-    display: inline-block;
-    transform: translateY(115%);
-    transition: transform 0.78s cubic-bezier(0.86, 0, 0.07, 1);
-  }
-  .mat-h1--visible .mat-char {
-    transform: translateY(0);
-  }
-
-
-  /* ── Footer ────────────────────────────────────────────────── */
-  .site-footer {
-    background: #0c0c0d;
-  }
-  .site-footer__inner {
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 56px 80px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 40px;
-  }
-  .site-footer__logo-mark {
-    font-family: 'Manrope', sans-serif;
-    font-weight: 300;
-    font-size: 18px;
-    letter-spacing: .4em;
-    color: #f5f3ef;
-    text-transform: uppercase;
-  }
-  .site-footer__logo-sub {
-    font-family: 'Manrope', sans-serif;
-    font-size: 10px;
-    letter-spacing: .22em;
-    text-transform: uppercase;
-    color: #5a5854;
-    margin-top: 5px;
-  }
-  .site-footer__nav {
-    display: flex;
-    gap: 36px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  .site-footer__nav a {
-    font-family: 'Manrope', sans-serif;
-    font-size: 12px;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    color: #8a8782;
-    text-decoration: none;
-    transition: color .2s;
-  }
-  .site-footer__nav a:hover { color: #f5f3ef; }
-  .site-footer__right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0;
-  }
-  .footer-contact-block {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 16px;
-    padding-bottom: 24px;
-    border-bottom: 1px solid rgba(255,255,255,0.07);
-    margin-bottom: 20px;
-  }
-  .site-footer__phone {
-    font-family: 'Manrope', sans-serif;
-    font-size: 26px;
-    font-weight: 300;
-    color: #f5f3ef;
-    text-decoration: none;
-    letter-spacing: .03em;
-    transition: color .2s;
-    line-height: 1;
-  }
-  .site-footer__phone:hover { color: #bdbab4; }
-  .footer-messengers {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
-  .footer-msg-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-    padding: 12px 24px;
-    border-radius: 28px;
-    border: 1px solid rgba(255,255,255,0.16);
-    font-family: 'Manrope', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    color: rgba(255,255,255,0.72);
-    text-decoration: none;
-    transition: border-color .2s, color .2s, background .2s;
-    white-space: nowrap;
-    letter-spacing: .01em;
-  }
-  .footer-msg-btn:hover {
-    border-color: rgba(255,255,255,0.42);
-    color: #f5f3ef;
-    background: rgba(255,255,255,0.06);
-  }
-  .footer-msg-btn svg {
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-  }
-  .footer-meta {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 8px;
-  }
-  .site-footer__copy {
-    font-family: 'Manrope', sans-serif;
-    font-size: 11px;
-    color: #3a3835;
-    letter-spacing: .06em;
-  }
-  .site-footer__policy {
-    font-family: 'Manrope', sans-serif;
-    font-size: 11px;
-    color: #5a5854;
-    letter-spacing: .06em;
-    text-decoration: none;
-    position: relative;
-  }
-  .site-footer__policy::after {
-    content: "";
-    position: absolute;
-    left: 0; bottom: -2px;
-    width: 100%; height: 1px;
-    background: #5a5854;
-    transform: scaleX(1);
-    transform-origin: left;
-    transition: transform .3s ease, background .3s ease;
-  }
-  .site-footer__policy:hover { color: #f5f3ef; }
-  .site-footer__policy:hover::after { background: #f5f3ef; }
-
-  /* ─── Full-width Before / After comparison ──────────────── */
-  .ba-wrap {
-    width: 100%;
-    position: relative;
-    line-height: 0;
-    overflow: hidden;
-    user-select: none;
-    -webkit-user-select: none;
-  }
-  .ba-img {
-    display: block;
-    width: 100%;
-    height: 100vh;
-    object-fit: cover;
-    object-position: top;
-  }
-  .ba-after {
-    position: relative;
-    z-index: 0;
-  }
-  .ba-before {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-  }
-  .ba-before--1 { clip-path: inset(0 calc(100% - var(--s1, 26.5%))  0 0%);     }
-  .ba-before--2 { clip-path: inset(0 calc(100% - var(--s2, 50%))    0 37.5%);  }
-  .ba-before--3 { clip-path: inset(0 calc(100% - var(--s3, 73.5%))  0 62.5%);  }
-  .ba-gradient {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, transparent 60%, #0c0c0d);
-    pointer-events: none;
-    z-index: 20;
-  }
-  .ba-title {
-    position: absolute;
-    left: 50%;
-    top: 82%;
-    transform: translate(-50%, -50%);
-    z-index: 21;
-    text-align: center;
-    pointer-events: none;
-  }
-  .ba-title__eyebrow {
-    font-family: 'Manrope', sans-serif;
-    font-size: 11px;
-    font-weight: 400;
-    letter-spacing: .28em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,.45);
-    margin-bottom: 14px;
-  }
-  .ba-title__h {
-    font-family: 'Manrope', sans-serif;
-    font-weight: 400;
-    font-size: clamp(28px, 2.8vw, 44px);
-    line-height: 1.06;
-    letter-spacing: .01em;
-    text-transform: uppercase;
-    color: #fff;
-    white-space: nowrap;
-  }
-  .ba-boundary {
-    position: absolute;
-    top: 0; bottom: 0;
-    width: 1px;
-    background: rgba(255,255,255,0.12);
-    z-index: 3;
-    transform: translateX(-50%);
-    pointer-events: none;
-  }
-  .ba-slider {
-    position: absolute;
-    top: 0; bottom: 0;
-    width: 64px;
-    transform: translateX(-50%);
-    z-index: 10;
-    cursor: grab;
-    touch-action: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .ba-slider--1 { left: var(--s1, 16.67%); }
-  .ba-slider--2 { left: var(--s2, 50%);    }
-  .ba-slider--3 { left: var(--s3, 83.33%); }
-  .ba-slider.dragging { cursor: grabbing; }
-  .ba-slider__line {
-    position: absolute;
-    top: 0; bottom: 0;
-    left: 50%;
-    width: 2px;
-    background: rgba(255,248,232,0.9);
-    box-shadow: 0 0 16px rgba(0,0,0,0.55);
-    transform: translateX(-50%);
-    pointer-events: none;
-  }
-  .ba-slider__handle {
-    width: 48px; height: 48px;
-    border-radius: 50%;
-    background: #fff;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.55);
-    pointer-events: none;
-    position: relative;
-    z-index: 1;
-    transition: transform 0.15s ease;
-    flex-shrink: 0;
-  }
-  .ba-slider:hover .ba-slider__handle { transform: scale(1.07); }
-  .ba-slider.dragging .ba-slider__handle { transform: scale(1.03); }
-  .ba-slider__handle svg { width: 22px; height: 22px; color: #111; }
-  .ba-badge {
-    position: absolute;
-    top: 20px;
-    font-family: 'Manrope', sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    padding: 5px 12px;
-    border-radius: 6px;
-    backdrop-filter: blur(6px);
-    pointer-events: none;
-    z-index: 5;
-    white-space: nowrap;
-  }
-  .ba-badge--do   { left: 20px;  color: rgba(255,255,255,.85); background: rgba(10,10,10,.55); }
-  .ba-badge--posle{ right: 20px; color: #c9a875; background: rgba(20,18,14,.88); }
-
-  /* ─── Block 7: Card Scatter ──────────────────────────────── */
-  .cstack-stage {
-    height: 100vh;
-    background: #f4f3ef url('assets/123.png') center center / cover no-repeat;
-    overflow: hidden;
-  }
-  .cstack-sticky {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: transparent;
-  }
-  .cstack-copy {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 0 24px;
-    z-index: 1;
-    pointer-events: none;
-  }
-  .cstack-eyebrow {
-    font-family: 'Manrope', sans-serif;
-    font-size: 11px;
-    font-weight: 400;
-    letter-spacing: .28em;
-    text-transform: uppercase;
-    color: #8a8782;
-    margin: 0 0 20px;
-  }
-  .cstack-headline {
-    font-family: 'Manrope', sans-serif;
-    font-weight: 400;
-    font-size: clamp(28px, 4.5vw, 72px);
-    line-height: 0.92;
-    letter-spacing: .01em;
-    text-transform: uppercase;
-    color: #ffffff;
-    margin: 0;
-  }
-  .cstack-layer {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    pointer-events: none;
-  }
-  .cstack-tile {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 260px;
-    height: 320px;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow:
-      0 1px 0 rgba(255,255,255,0.08),
-      0 20px 50px -14px rgba(20,17,13,0.32),
-      0 4px 12px -4px rgba(20,17,13,0.18);
-    transform: translate(-50%, -50%) translate(var(--ctx, 0px), var(--cty, 0px)) rotate(var(--ctr, 0deg)) scale(var(--csc, 1));
-    will-change: transform;
-    background: var(--ct-bg, #1a1a1a);
-    border: 1px solid rgba(255,255,255,0.06);
-    transition: transform 0.85s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-  .cstack-tile::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(0,0,0,0.15));
-    pointer-events: none;
-  }
-  .ct-num {
-    position: absolute;
-    right: 14px; top: 14px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: rgba(255,255,255,0.4);
-    z-index: 2;
-  }
-  .ct-label {
-    position: absolute;
-    left: 14px; bottom: 14px;
-    font-family: 'Manrope', sans-serif;
-    font-size: 11px;
-    letter-spacing: .22em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.7);
-    background: rgba(0,0,0,0.35);
-    padding: 5px 10px;
-    border-radius: 6px;
-    backdrop-filter: blur(4px);
-    z-index: 2;
-  }
-  .ct-art {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-  }
-  .ct-art--lines {
-    background-image: repeating-linear-gradient(
-      45deg,
-      rgba(255,255,255,0.04) 0 6px,
-      transparent 6px 14px
-    );
-  }
-  .ct-art--grid {
-    background-image:
-      linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px);
-    background-size: 28px 28px;
-  }
-  .ct-art--dots {
-    background-image: radial-gradient(rgba(255,255,255,0.12) 1.5px, transparent 2px);
-    background-size: 20px 20px;
-  }
-  .ct-art--rings {
-    background: radial-gradient(circle at 35% 65%, rgba(255,255,255,0.12) 0 10%, transparent 11% 18%, rgba(255,255,255,0.08) 19% 24%, transparent 25%);
-  }
-  .ct-art--arc {
-    background:
-      radial-gradient(circle at 100% 0%, rgba(255,255,255,0.12) 0 32%, transparent 33%),
-      radial-gradient(circle at 0% 100%, rgba(0,0,0,0.25) 0 28%, transparent 29%);
-  }
-  .ct-art--diag {
-    background: linear-gradient(160deg, rgba(255,255,255,0.09), rgba(0,0,0,0.12));
-  }
-  .ct-art--cross {
-    background-image:
-      linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
-    background-size: 48px 48px;
-    background-position: -1px -1px;
-  }
-  .ct-art--wave {
-    background:
-      repeating-linear-gradient(
-        -30deg,
-        rgba(255,255,255,0.05) 0px,
-        rgba(255,255,255,0.05) 2px,
-        transparent 2px,
-        transparent 22px
-      );
-  }
-  .cstack-scroll-hint {
-    position: absolute;
-    bottom: 32px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: 'Manrope', sans-serif;
-    font-size: 11px;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    color: #8a8782;
-    z-index: 3;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: opacity .3s;
-  }
-  .cstack-scroll-hint .csh-dot {
-    width: 5px; height: 5px;
-    background: var(--red);
-    border-radius: 50%;
-    animation: cshPulse 1.6s ease-in-out infinite;
-  }
-  @keyframes cshPulse {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.7); opacity: 0.35; }
-  }
 
   </style>
 </head>
 <body>
 
   <!-- Navigation -->
-  <div class="nav-wrap" id="navWrap">
-    <nav class="nav" id="nav" aria-label="Главная навигация">
-      <div class="nav__logo">
-        <div class="nav__logo-mark">V I P G L A S S</div>
-        <div class="nav__logo-sub">интерьерное стекло</div>
-      </div>
-      <div class="nav__links" id="nav-links">
-        <div class="nav__pill" id="nav-pill"></div>
-        <a href="#hero"      data-section="hero">Пространства</a>
-        <a href="#slide2"    data-section="slide2">О нас</a>
-        <a href="#materials" data-section="materials">Материалы</a>
-        <a href="#projects"  data-section="projects">Проекты</a>
-        <a href="#mirror"    data-section="mirror">Зеркала</a>
-        <a href="#">Контакты</a>
-      </div>
-      <a href="tel:+79501702345" class="nav__phone">+7 (950) 170-23-45</a>
-      <span class="nav__burger" aria-hidden="true"><i></i><i></i><i></i></span>
-    </nav>
-  </div>
-
-  <!-- Sheet-меню (открывается из кружка) -->
-  <div class="nav-sheet" id="navSheet" role="dialog" aria-modal="true" aria-label="Меню">
-    <div class="nav-sheet__card">
-      <div class="nav-sheet__head">
-        <span class="mark">V I P G L A S S</span>
-        <span class="sub">интерьерное стекло</span>
-      </div>
-      <nav class="nav-sheet__links">
-        <a href="#hero"><span>Пространства</span><span class="num">01</span></a>
-        <a href="#slide2"><span>О нас</span><span class="num">02</span></a>
-        <a href="#materials"><span>Материалы</span><span class="num">03</span></a>
-        <a href="#projects"><span>Проекты</span><span class="num">04</span></a>
-        <a href="#mirror"><span>Зеркала</span><span class="num">05</span></a>
-        <a href="#"><span>Контакты</span><span class="num">06</span></a>
-      </nav>
-      <div class="nav-sheet__foot">
-        <span>Связаться</span>
-        <a href="tel:+79501702345">+7 (950) 170-23-45</a>
-      </div>
+  <nav class="nav" id="nav">
+    <div class="nav__logo">
+      <div class="nav__logo-mark">I N O V A</div>
+      <div class="nav__logo-sub">интерьерное стекло</div>
     </div>
-  </div>
+    <div class="nav__links">
+      <a href="#">Пространства</a>
+      <a href="#">Продукты</a>
+      <a href="#projects" class="active">Проекты</a>
+      <a href="#">Материалы</a>
+      <a href="#">О нас</a>
+      <a href="#">Контакты</a>
+    </div>
+    <a href="tel:+79501702345" class="nav__phone">+7 (950) 170-23-45</a>
+  </nav>
 
   <!-- Block 1: Hero -->
   <section class="hero" id="hero">
@@ -2156,9 +1375,9 @@
     <div class="hero__content">
       <div class="hero__eyebrow">Современные интерьеры</div>
       <h1 class="hero__heading">
-        <span class="hero__heading-line">СТЕКЛО</span>
-        <span class="hero__heading-line">СВЕТ</span>
-        <span class="hero__heading-line">СТИЛЬ</span>
+        <span class="hero__heading-line"><span>СТЕКЛО</span></span>
+        <span class="hero__heading-line"><span>СВЕТ</span></span>
+        <span class="hero__heading-line"><span>СТИЛЬ</span></span>
       </h1>
       <div class="hero__rule"></div>
       <p class="hero__sub">Современные стеклянные решения<br>для минималистичных интерьеров.</p>
@@ -2209,7 +1428,6 @@
     </div>
   </div>
 
-  <div class="parallax-stack">
   <!-- Block 2: Slide 2 -->
   <div id="slide2">
     <div id="slide2-text">
@@ -2219,13 +1437,109 @@
     </div>
   </div>
 
+  <!-- Block 3: Before / After -->
+  <section class="vs-section fade-up" id="before-after">
+    <div class="vs-wrap">
+      <div class="vs-header">
+        <p class="eyebrow">Наши работы</p>
+        <h2 class="section__title">Разница, которую мы создаём</h2>
+      </div>
+      <div class="vs-grid">
+
+        <div class="vs-card">
+          <div class="vs-card__slider" data-slider style="--split: 50%">
+            <div class="vs-layer vs-layer--before">
+              <img class="vs-card__img" src="assets/vs/old.png" alt="" draggable="false" />
+            </div>
+            <div class="vs-layer vs-layer--after">
+              <img class="vs-card__img" src="assets/vs/new.png" alt="" draggable="false" />
+            </div>
+            <div class="vs-card__divider" aria-hidden="true"></div>
+            <button class="vs-card__handle" aria-label="Сравнить">
+              <span class="vs-chev" data-step="-10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></span>
+              <span class="vs-chev" data-step="10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+            </button>
+            <span class="vs-card__badge vs-card__badge--before">Before</span>
+            <span class="vs-card__badge vs-card__badge--after">After</span>
+          </div>
+          <div class="vs-card__info">
+            <div class="vs-card__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 20h16M4 20V8a2 2 0 012-2h12a2 2 0 012 2v12M9 20v-5h6v5"/></svg>
+            </div>
+            <div class="vs-card__meta">
+              <span class="vs-card__cat">Bathroom</span>
+              <h3 class="vs-card__title">Frameless Shower</h3>
+            </div>
+            <button class="vs-card__cta" aria-label="Подробнее">→</button>
+          </div>
+        </div>
+
+        <div class="vs-card">
+          <div class="vs-card__slider" data-slider style="--split: 50%">
+            <div class="vs-layer vs-layer--before">
+              <img class="vs-card__img" src="assets/vs/old.png" alt="" draggable="false" />
+            </div>
+            <div class="vs-layer vs-layer--after">
+              <img class="vs-card__img" src="assets/vs/new.png" alt="" draggable="false" />
+            </div>
+            <div class="vs-card__divider" aria-hidden="true"></div>
+            <button class="vs-card__handle" aria-label="Сравнить">
+              <span class="vs-chev" data-step="-10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></span>
+              <span class="vs-chev" data-step="10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+            </button>
+            <span class="vs-card__badge vs-card__badge--before">Before</span>
+            <span class="vs-card__badge vs-card__badge--after">After</span>
+          </div>
+          <div class="vs-card__info">
+            <div class="vs-card__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            </div>
+            <div class="vs-card__meta">
+              <span class="vs-card__cat">Living Space</span>
+              <h3 class="vs-card__title">Custom Mirror</h3>
+            </div>
+            <button class="vs-card__cta" aria-label="Подробнее">→</button>
+          </div>
+        </div>
+
+        <div class="vs-card">
+          <div class="vs-card__slider" data-slider style="--split: 50%">
+            <div class="vs-layer vs-layer--before">
+              <img class="vs-card__img" src="assets/vs/old.png" alt="" draggable="false" />
+            </div>
+            <div class="vs-layer vs-layer--after">
+              <img class="vs-card__img" src="assets/vs/new.png" alt="" draggable="false" />
+            </div>
+            <div class="vs-card__divider" aria-hidden="true"></div>
+            <button class="vs-card__handle" aria-label="Сравнить">
+              <span class="vs-chev" data-step="-10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></span>
+              <span class="vs-chev" data-step="10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+            </button>
+            <span class="vs-card__badge vs-card__badge--before">Before</span>
+            <span class="vs-card__badge vs-card__badge--after">After</span>
+          </div>
+          <div class="vs-card__info">
+            <div class="vs-card__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>
+            </div>
+            <div class="vs-card__meta">
+              <span class="vs-card__cat">Staircase</span>
+              <h3 class="vs-card__title">Glass Railing</h3>
+            </div>
+            <button class="vs-card__cta" aria-label="Подробнее">→</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- Materials Block -->
   <section class="mat-block" id="materials">
     <div class="mat-stage" id="mat-stage">
       <div class="mat-page">
 
         <div class="mat-backdrop"><div class="mat-grain"></div></div>
-        <div class="mat-hero-slot"></div>
         <div class="mat-cabinet-shadow"></div>
 
         <div class="mat-left-col">
@@ -2247,82 +1561,110 @@
           </div>
         </div>
 
-<div class="mat-cabinet" id="mat-cabinet">
+        <div class="mat-cabinet">
 
-          <!-- ROW 1 -->
-          <div class="mat-row" data-row="0">
-            <div class="mat-row-label">Зеркала</div>
-            <button class="mat-row-arrow prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 6l-6 6 6 6"/></svg></button>
-            <div class="mat-track-viewport">
-              <div class="mat-track">
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">01</div><div class="mat-cell-lbl">Закалённое стекло<br/><strong>ULTRA CLEAR</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">02</div><div class="mat-cell-lbl">Алюминиевый<br/><strong>профиль</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">03</div><div class="mat-cell-lbl">Петли из<br/><strong>нержавеющей стали</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">04</div><div class="mat-cell-lbl">Крепления и<br/><strong>кронштейны</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">05</div><div class="mat-cell-lbl">Роликовый механизм<br/><strong>premium-класса</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">06</div><div class="mat-cell-lbl">Фурнитура<br/><strong>и ручки</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">07</div><div class="mat-cell-lbl">Магнитный<br/><strong>замок</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">08</div><div class="mat-cell-lbl">Подвесные<br/><strong>элементы</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-              </div>
-            </div>
-            <button class="mat-row-arrow next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 6l6 6-6 6"/></svg></button>
+          <!-- row 1 -->
+          <div class="mat-cell">
+            <div class="mat-lamp"></div><div class="mat-glow"></div>
+            <div class="mat-num">01</div>
+            <div class="mat-cell-lbl">Закалённое стекло<br/><strong>ULTRA CLEAR</strong></div>
+            <div class="mat-item"><svg class="mat-glyph" viewBox="0 0 100 100"><rect x="22" y="20" width="56" height="64" rx="2" fill="none" stroke="rgba(220,230,240,.85)" stroke-width="1.4"/><path d="M30 28 L70 76" stroke="rgba(255,255,255,.18)" stroke-width="1"/></svg></div>
+          </div>
+          <div class="mat-cell">
+            <div class="mat-lamp"></div><div class="mat-glow"></div>
+            <div class="mat-num">02</div>
+            <div class="mat-cell-lbl">Алюминиевый<br/><strong>профиль</strong></div>
+            <div class="mat-item"><svg class="mat-glyph" viewBox="0 0 100 100"><rect x="15" y="42" width="70" height="20" rx="2" fill="#2a2a2c" stroke="rgba(255,255,255,.18)"/><rect x="18" y="46" width="64" height="12" rx="1" fill="#161618"/><rect x="15" y="42" width="70" height="3" fill="rgba(255,255,255,.07)"/></svg></div>
+          </div>
+          <div class="mat-cell">
+            <div class="mat-lamp"></div><div class="mat-glow"></div>
+            <div class="mat-num">03</div>
+            <div class="mat-cell-lbl">Петли из<br/><strong>нержавеющей стали</strong></div>
+            <div class="mat-item"><svg class="mat-glyph" viewBox="0 0 100 100"><rect x="28" y="22" width="20" height="56" rx="2" fill="#3a3a3c" stroke="rgba(255,255,255,.2)"/><rect x="52" y="22" width="20" height="56" rx="2" fill="#3a3a3c" stroke="rgba(255,255,255,.2)"/><circle cx="50" cy="34" r="3" fill="#1a1a1c"/><circle cx="50" cy="66" r="3" fill="#1a1a1c"/></svg></div>
+          </div>
+          <div class="mat-cell">
+            <div class="mat-lamp"></div><div class="mat-glow"></div>
+            <div class="mat-num">04</div>
+            <div class="mat-cell-lbl">Крепления и<br/><strong>кронштейны</strong></div>
+            <div class="mat-item"><svg class="mat-glyph" viewBox="0 0 100 100"><path d="M30 30 L70 30 L70 50 L50 50 L50 70 L30 70 Z" fill="#2c2c2e" stroke="rgba(255,255,255,.2)"/><circle cx="38" cy="38" r="2" fill="#0d0d0e"/><circle cx="62" cy="38" r="2" fill="#0d0d0e"/></svg></div>
           </div>
 
-          <!-- ROW 2 -->
-          <div class="mat-row" data-row="1">
-            <div class="mat-row-label">Стекла</div>
-            <button class="mat-row-arrow prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 6l-6 6 6 6"/></svg></button>
-            <div class="mat-track-viewport">
-              <div class="mat-track">
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">07</div><div class="mat-cell-lbl">Силиконовые<br/><strong>уплотнители</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">08</div><div class="mat-cell-lbl">RGBW LED-лента<br/><strong>premium</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">09</div><div class="mat-cell-lbl">Диммеры и<br/><strong>контроллеры</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">10</div><div class="mat-cell-lbl">Блоки питания<br/><strong>24V</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">11</div><div class="mat-cell-lbl">Дренажные<br/><strong>системы</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">12</div><div class="mat-cell-lbl">Аксессуары и<br/><strong>держатели</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">13</div><div class="mat-cell-lbl">Кабель-канал<br/><strong>скрытого монтажа</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">14</div><div class="mat-cell-lbl">Коннекторы<br/><strong>влагозащитные</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-              </div>
-            </div>
-            <button class="mat-row-arrow next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 6l6 6-6 6"/></svg></button>
+          <!-- row 2 -->
+          <div class="mat-cell">
+            <div class="mat-lamp"></div><div class="mat-glow"></div>
+            <div class="mat-num">05</div>
+            <div class="mat-cell-lbl">Роликовый механизм<br/><strong>premium-класса</strong></div>
+            <div class="mat-item"><svg class="mat-glyph" viewBox="0 0 100 100"><circle cx="35" cy="50" r="18" fill="#1c1c1e" stroke="rgba(255,255,255,.2)"/><circle cx="35" cy="50" r="6" fill="#0a0a0b"/><circle cx="65" cy="50" r="18" fill="#1c1c1e" stroke="rgba(255,255,255,.2)"/><circle cx="65" cy="50" r="6" fill="#0a0a0b"/></svg></div>
+          </div>
+          <div class="mat-cell">
+            <div class="mat-lamp"></div><div class="mat-glow"></div>
+            <div class="mat-num">06</div>
+            <div class="mat-cell-lbl">Фурнитура<br/><strong>и ручки</strong></div>
+            <div class="mat-item"><svg class="mat-glyph" viewBox="0 0 100 100"><rect x="20" y="44" width="60" height="14" rx="2" fill="#2a2a2c" stroke="rgba(255,255,255,.2)"/><rect x="22" y="46" width="56" height="3" fill="rgba(255,255,255,.08)"/></svg></div>
+          </div>
+          <div class="mat-cell">
+            <div class="mat-lamp"></div><div class="mat-glow"></div>
+            <div class="mat-num">07</div>
+            <div class="mat-cell-lbl">Силиконовые<br/><strong>уплотнители</strong></div>
+            <div class="mat-item"><svg class="mat-glyph" viewBox="0 0 100 100"><path d="M25 40 Q30 35 35 40 Q40 45 45 40 Q50 35 55 40 Q60 45 65 40 Q70 35 75 40 V60 H25 Z" fill="#222224" stroke="rgba(255,255,255,.18)"/></svg></div>
+          </div>
+          <div class="mat-cell">
+            <div class="mat-lamp"></div><div class="mat-glow"></div>
+            <div class="mat-num">08</div>
+            <div class="mat-cell-lbl">RGBW LED-лента<br/><strong>premium</strong></div>
+            <div class="mat-item"><svg class="mat-glyph" viewBox="0 0 100 100"><path d="M15 60 Q40 30 60 55 T85 50" fill="none" stroke="rgba(255,210,160,.7)" stroke-width="3" stroke-linecap="round"/><circle cx="25" cy="55" r="2" fill="#ffd9a8"/><circle cx="45" cy="42" r="2" fill="#ffd9a8"/><circle cx="65" cy="54" r="2" fill="#ffd9a8"/><circle cx="80" cy="51" r="2" fill="#ffd9a8"/></svg></div>
           </div>
 
-          <!-- ROW 3 -->
-          <div class="mat-row" data-row="2">
-            <div class="mat-row-label">Триплекс</div>
-            <button class="mat-row-arrow prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 6l-6 6 6 6"/></svg></button>
-            <div class="mat-track-viewport">
-              <div class="mat-track">
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">13</div><div class="mat-cell-lbl">Чёрное стекло<br/><strong>BLACK MIRROR</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">14</div><div class="mat-cell-lbl">Бронзовое стекло<br/><strong>BRONZE</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">15</div><div class="mat-cell-lbl">Матовое стекло<br/><strong>SATIN</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">16</div><div class="mat-cell-lbl">Прозрачные<br/><strong>уплотнители</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">17</div><div class="mat-cell-lbl">Дихроичное<br/><strong>стекло</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">18</div><div class="mat-cell-lbl">Световая<br/><strong>рамка</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">19</div><div class="mat-cell-lbl">Рифлёное<br/><strong>стекло</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">20</div><div class="mat-cell-lbl">Гравированное<br/><strong>стекло</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-              </div>
-            </div>
-            <button class="mat-row-arrow next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 6l6 6-6 6"/></svg></button>
+          <!-- row 3 -->
+          <div class="mat-cell">
+            <div class="mat-lamp"></div><div class="mat-glow"></div>
+            <div class="mat-num">09</div>
+            <div class="mat-cell-lbl">Диммеры и<br/><strong>контроллеры</strong></div>
+            <div class="mat-item"><svg class="mat-glyph" viewBox="0 0 100 100"><rect x="20" y="35" width="60" height="30" rx="3" fill="#1d1d1f" stroke="rgba(255,255,255,.2)"/><circle cx="36" cy="50" r="6" fill="#0a0a0b" stroke="rgba(255,255,255,.25)"/><circle cx="64" cy="50" r="6" fill="#0a0a0b" stroke="rgba(255,255,255,.25)"/></svg></div>
+          </div>
+          <div class="mat-cell">
+            <div class="mat-lamp"></div><div class="mat-glow"></div>
+            <div class="mat-num">10</div>
+            <div class="mat-cell-lbl">Блоки питания<br/><strong>24V</strong></div>
+            <div class="mat-item"><svg class="mat-glyph" viewBox="0 0 100 100"><rect x="18" y="38" width="64" height="24" rx="2" fill="#1c1c1e" stroke="rgba(255,255,255,.2)"/><g stroke="rgba(255,255,255,.18)" stroke-width="1"><path d="M24 42v16M30 42v16M36 42v16M42 42v16M48 42v16M54 42v16M60 42v16M66 42v16M72 42v16"/></g></svg></div>
+          </div>
+          <div class="mat-cell">
+            <div class="mat-lamp"></div><div class="mat-glow"></div>
+            <div class="mat-num">11</div>
+            <div class="mat-cell-lbl">Дренажные<br/><strong>системы</strong></div>
+            <div class="mat-item"><svg class="mat-glyph" viewBox="0 0 100 100"><rect x="18" y="42" width="64" height="16" rx="1" fill="#1c1c1e" stroke="rgba(255,255,255,.2)"/><g stroke="rgba(255,255,255,.18)" stroke-width="1.4"><path d="M24 44v12M30 44v12M36 44v12M42 44v12M48 44v12M54 44v12M60 44v12M66 44v12M72 44v12"/></g></svg></div>
+          </div>
+          <div class="mat-cell">
+            <div class="mat-lamp"></div><div class="mat-glow"></div>
+            <div class="mat-num">12</div>
+            <div class="mat-cell-lbl">Аксессуары и<br/><strong>держатели</strong></div>
+            <div class="mat-item"><svg class="mat-glyph" viewBox="0 0 100 100"><path d="M30 30 L30 70 L40 70 L40 50 L60 50 L60 70 L70 70 L70 30" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.6"/></svg></div>
           </div>
 
-          <!-- ROW 4 -->
-          <div class="mat-row" data-row="3">
-            <div class="mat-row-label">Услуги</div>
-            <button class="mat-row-arrow prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 6l-6 6 6 6"/></svg></button>
-            <div class="mat-track-viewport">
-              <div class="mat-track">
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">19</div><div class="mat-cell-lbl">Сенсорный<br/><strong>выключатель</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">20</div><div class="mat-cell-lbl">Нагрев<br/><strong>зеркала</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">21</div><div class="mat-cell-lbl">Кабель<br/><strong>экранированный</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">22</div><div class="mat-cell-lbl">Стеклоочиститель<br/><strong>nano-спрей</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">23</div><div class="mat-cell-lbl">Защитное<br/><strong>покрытие</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">24</div><div class="mat-cell-lbl">Гравировка<br/><strong>логотипа</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">25</div><div class="mat-cell-lbl">UV-фильтр<br/><strong>покрытие</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-                <div class="mat-cell"><div class="mat-lamp"></div><div class="mat-glow"></div><div class="mat-num">26</div><div class="mat-cell-lbl">Акустические<br/><strong>вставки</strong></div><div class="mat-cell-bg"><img src="assets/boxes/mirror-1.png" alt=""></div></div>
-              </div>
-            </div>
-            <button class="mat-row-arrow next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 6l6 6-6 6"/></svg></button>
+          <!-- row 4 -->
+          <div class="mat-cell">
+            <div class="mat-lamp"></div><div class="mat-glow"></div>
+            <div class="mat-num">13</div>
+            <div class="mat-cell-lbl">Чёрное стекло<br/><strong>BLACK MIRROR</strong></div>
+            <div class="mat-item"><svg class="mat-glyph" viewBox="0 0 100 100"><rect x="22" y="22" width="56" height="60" rx="2" fill="#070707" stroke="rgba(255,255,255,.2)"/><path d="M30 30 L70 78" stroke="rgba(255,255,255,.08)" stroke-width="1"/></svg></div>
+          </div>
+          <div class="mat-cell">
+            <div class="mat-lamp"></div><div class="mat-glow"></div>
+            <div class="mat-num">14</div>
+            <div class="mat-cell-lbl">Бронзовое стекло<br/><strong>BRONZE</strong></div>
+            <div class="mat-item"><svg class="mat-glyph" viewBox="0 0 100 100"><rect x="22" y="22" width="56" height="60" rx="2" fill="#3a2a1a" stroke="rgba(255,210,160,.25)"/><path d="M30 30 L70 78" stroke="rgba(255,220,180,.15)" stroke-width="1"/></svg></div>
+          </div>
+          <div class="mat-cell">
+            <div class="mat-lamp"></div><div class="mat-glow"></div>
+            <div class="mat-num">15</div>
+            <div class="mat-cell-lbl">Матовое стекло<br/><strong>SATIN</strong></div>
+            <div class="mat-item"><svg class="mat-glyph" viewBox="0 0 100 100"><rect x="22" y="22" width="56" height="60" rx="2" fill="#9a9a9a" opacity=".45" stroke="rgba(255,255,255,.25)"/></svg></div>
+          </div>
+          <div class="mat-cell">
+            <div class="mat-lamp"></div><div class="mat-glow"></div>
+            <div class="mat-num">16</div>
+            <div class="mat-cell-lbl">Прозрачные<br/><strong>уплотнители</strong></div>
+            <div class="mat-item"><svg class="mat-glyph" viewBox="0 0 100 100"><rect x="22" y="38" width="56" height="20" rx="2" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="1.4"/><rect x="28" y="42" width="44" height="12" rx="1" fill="rgba(255,255,255,.04)"/></svg></div>
           </div>
 
         </div>
@@ -2330,7 +1672,6 @@
       </div>
     </div>
   </section>
-  </div><!-- /.parallax-stack -->
 
   <!-- Block 5: Projects -->
   <section class="projects-section" id="projects">
@@ -2365,7 +1706,7 @@
 
       <div class="ps-hero-body">
         <div class="ps-crumb">/ Проекты</div>
-        <h2 class="ps-h1">Примеры<br>наших<br>работ</h2>
+        <h2 class="ps-h1">Примеры работ,<br>созданные<br>с точностью</h2>
         <p class="ps-lead">
           Каждое изделие — это сочетание<br>
           материалов премиум-класса,<br>
@@ -2459,134 +1800,7 @@
 
   </section>
 
-  <!-- Full-width Before / After comparison -->
-  <div class="ba-wrap" id="ba-wrap">
-    <!-- After image (bottom layer) -->
-    <img class="ba-img ba-after" src="assets/vs/new.png" alt="После">
-
-    <!-- Before image — three clipped copies, one per zone -->
-    <img class="ba-img ba-before ba-before--1" src="assets/vs/old.png" alt="">
-    <img class="ba-img ba-before ba-before--2" src="assets/vs/old.png" alt="">
-    <img class="ba-img ba-before ba-before--3" src="assets/vs/old.png" alt="">
-
-    <!-- Zone boundary indicators -->
-    <div class="ba-boundary" style="left:37.5%"></div>
-    <div class="ba-boundary" style="left:62.5%"></div>
-
-    <!-- Slider 1 (left zone: 0–33%) -->
-    <div class="ba-slider ba-slider--1" data-ba-zone="1">
-      <div class="ba-slider__line"></div>
-      <div class="ba-slider__handle">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="9 18 15 12 9 6"></polyline>
-        </svg>
-      </div>
-    </div>
-
-    <!-- Slider 2 (center zone: 33–66%) -->
-    <div class="ba-slider ba-slider--2" data-ba-zone="2">
-      <div class="ba-slider__line"></div>
-      <div class="ba-slider__handle">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="9 18 15 12 9 6"></polyline>
-        </svg>
-      </div>
-    </div>
-
-    <!-- Slider 3 (right zone: 66–100%) -->
-    <div class="ba-slider ba-slider--3" data-ba-zone="3">
-      <div class="ba-slider__line"></div>
-      <div class="ba-slider__handle">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="9 18 15 12 9 6"></polyline>
-        </svg>
-      </div>
-    </div>
-
-    <!-- Section title -->
-    <div class="ba-title">
-      <p class="ba-title__eyebrow">До / После</p>
-      <h2 class="ba-title__h">Изменения, которые видно сразу</h2>
-    </div>
-
-    <!-- ДО / ПОСЛЕ labels -->
-    <span class="ba-badge ba-badge--do">ДО</span>
-    <span class="ba-badge ba-badge--posle">ПОСЛЕ</span>
-
-    <!-- Bottom fade -->
-    <div class="ba-gradient"></div>
-  </div>
-
-  <!-- Block 7: Card Scatter (hidden) -->
-  <!--HIDDEN-CSTACK-START
-  <div class="cstack-wrap" id="cstack-wrap">
-  <section class="cstack-stage" id="cstack-stage">
-    <div class="cstack-sticky">
-
-      <div class="cstack-copy">
-        <h2 class="cstack-headline">Услуги<br>и<br>сервис</h2>
-      </div>
-
-      <div class="cstack-layer" id="cstack-layer">
-        <div class="cstack-tile" style="--ct-bg: #1c1410;" data-tx="-46" data-ty="-38" data-rot="-14" data-z="1">
-          <div class="ct-art ct-art--lines"></div>
-          <span class="ct-num">01</span>
-          <span class="ct-label">Лофт</span>
-        </div>
-        <div class="cstack-tile" style="--ct-bg: #0e1520;" data-tx="44" data-ty="-40" data-rot="11" data-z="2">
-          <div class="ct-art ct-art--grid"></div>
-          <span class="ct-num">02</span>
-          <span class="ct-label">Минимализм</span>
-        </div>
-        <div class="cstack-tile" style="--ct-bg: #0f1a14;" data-tx="-50" data-ty="36" data-rot="-7" data-z="3">
-          <div class="ct-art ct-art--dots"></div>
-          <span class="ct-num">03</span>
-          <span class="ct-label">Классика</span>
-        </div>
-        <div class="cstack-tile" style="--ct-bg: #1a1016;" data-tx="48" data-ty="42" data-rot="9" data-z="4">
-          <div class="ct-art ct-art--rings"></div>
-          <span class="ct-num">04</span>
-          <span class="ct-label">Арт-деко</span>
-        </div>
-        <div class="cstack-tile" style="--ct-bg: #20180c;" data-tx="-60" data-ty="-2" data-rot="-20" data-z="5">
-          <div class="ct-art ct-art--arc"></div>
-          <span class="ct-num">05</span>
-          <span class="ct-label">Скандинав</span>
-        </div>
-        <div class="cstack-tile" style="--ct-bg: #0c1518;" data-tx="60" data-ty="8" data-rot="17" data-z="6">
-          <div class="ct-art ct-art--diag"></div>
-          <span class="ct-num">06</span>
-          <span class="ct-label">Хай-тек</span>
-        </div>
-        <div class="cstack-tile" style="--ct-bg: #18101c;" data-tx="-18" data-ty="58" data-rot="6" data-z="7">
-          <div class="ct-art ct-art--wave"></div>
-          <span class="ct-num">07</span>
-          <span class="ct-label">Бохо</span>
-        </div>
-        <div class="cstack-tile" style="--ct-bg: #1a1212;" data-tx="22" data-ty="-56" data-rot="-10" data-z="8">
-          <div class="ct-art ct-art--cross"></div>
-          <span class="ct-num">08</span>
-          <span class="ct-label">Ретро</span>
-        </div>
-      </div>
-
-
-    </div>
-  </section>
-  </div>
-  HIDDEN-CSTACK-END-->
-
   <!-- Block 6: Mirror Statement -->
-  <div class="mirror-standalone-wrap">
   <section class="mirror-section" id="mirror">
     <div class="mirror-inner">
       <div class="mirror-text">
@@ -2602,52 +1816,6 @@
       </div>
     </div>
   </section>
-  </div><!-- /.mirror-standalone-wrap -->
-
-  <!-- Footer -->
-  <footer class="site-footer">
-    <div class="site-footer__inner">
-
-      <div class="site-footer__brand">
-        <div class="site-footer__logo-mark">V I P G L A S S</div>
-        <div class="site-footer__logo-sub">интерьерное стекло</div>
-      </div>
-
-      <nav class="site-footer__nav">
-        <a href="#hero">Пространства</a>
-        <a href="#slide2">О нас</a>
-        <a href="#materials">Материалы</a>
-        <a href="#projects">Проекты</a>
-        <a href="#mirror">Зеркала</a>
-        <a href="#">Контакты</a>
-      </nav>
-
-      <div class="site-footer__right">
-        <div class="footer-contact-block">
-          <a href="tel:+79501702345" class="site-footer__phone">+7 (950) 170-23-45</a>
-          <div class="footer-messengers">
-            <a href="https://t.me/vipglass" class="footer-msg-btn" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.93 7.12-1.68 7.92c-.13.58-.47.72-.95.45l-2.64-1.95-1.27 1.22c-.14.14-.26.26-.54.26l.19-2.72 4.95-4.47c.22-.2-.05-.3-.34-.11L7.64 14.09l-2.59-.81c-.57-.18-.58-.57.12-.84l8.94-3.45c.47-.18.88.11.82.13z"/>
-              </svg>
-              Telegram
-            </a>
-            <a href="https://max.ru/vipglass" class="footer-msg-btn" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 13h-1.5v-4.5l-2.5 3-2.5-3V15H8V9h1.5l2.5 3.2L14.5 9H16v6z"/>
-              </svg>
-              MAX
-            </a>
-          </div>
-        </div>
-        <div class="footer-meta">
-          <span class="site-footer__copy">© 2025 VIPGLASS. Все права защищены.</span>
-          <a href="#" class="site-footer__policy">Политика конфиденциальности</a>
-        </div>
-      </div>
-
-    </div>
-  </footer>
 
   <script>
 
@@ -2758,10 +1926,6 @@
       document.addEventListener('click', e => {
         if (activeBtn && !callout.contains(e.target) && !e.target.closest('.hero__hotspot')) close();
       });
-
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 20 && activeBtn) close();
-      }, { passive: true });
     })();
 
     /* Scroll fade-up */
@@ -2778,7 +1942,6 @@
     (function () {
       const heroEl  = document.getElementById('hero');
       const overlay = document.getElementById('hero-overlay');
-      const callout = document.getElementById('hero-callout');
       if (!heroEl || !overlay) return;
 
       function update() {
@@ -2792,7 +1955,6 @@
       window.addEventListener('scroll', update, { passive: true });
       update();
     })();
-
 
     /* Before / After sliders */
     (function () {
@@ -2836,52 +1998,6 @@
           const next = Math.max(2, Math.min(98, cur + parseFloat(chev.dataset.step)));
           viewer.style.setProperty('--split', next + '%');
         });
-      });
-    })();
-
-    /* Full-width Before / After — three-zone sliders */
-    (function () {
-      const wrap = document.getElementById('ba-wrap');
-      if (!wrap) return;
-
-      const zones = [
-        { sel: '[data-ba-zone="1"]', varName: '--s1', min: 15,    max: 38,    init: 26.5  },
-        { sel: '[data-ba-zone="2"]', varName: '--s2', min: 37,    max: 63,    init: 50    },
-        { sel: '[data-ba-zone="3"]', varName: '--s3', min: 62,    max: 90,    init: 76    },
-      ];
-
-      zones.forEach(z => wrap.style.setProperty(z.varName, z.init + '%'));
-
-      zones.forEach(z => {
-        const slider = wrap.querySelector(z.sel);
-        if (!slider) return;
-        let dragging = false, pending = null;
-
-        slider.addEventListener('pointerdown', e => {
-          pending = { startX: e.clientX, pointerId: e.pointerId };
-          try { slider.setPointerCapture(e.pointerId); } catch (_) {}
-          e.preventDefault();
-        });
-
-        slider.addEventListener('pointermove', e => {
-          if (!pending) return;
-          if (!dragging && Math.abs(e.clientX - pending.startX) > 3) {
-            dragging = true;
-            slider.classList.add('dragging');
-          }
-          if (!dragging) return;
-          const r = wrap.getBoundingClientRect();
-          const pct = ((e.clientX - r.left) / r.width) * 100;
-          const clamped = Math.max(z.min + 1, Math.min(z.max - 1, pct));
-          wrap.style.setProperty(z.varName, clamped + '%');
-        });
-
-        const onUp = () => {
-          pending = null; dragging = false;
-          slider.classList.remove('dragging');
-        };
-        slider.addEventListener('pointerup',     onUp);
-        slider.addEventListener('pointercancel', onUp);
       });
     })();
 
@@ -2984,16 +2100,16 @@
       });
     })();
 
-    // Slide2 lights-on: двунаправленная анимация по скроллу
+    // Slide2 lights-on: тёмная → светлая по скроллу
     (function () {
       const slide2 = document.getElementById('slide2');
       if (!slide2) return;
       function check() {
         const rect = slide2.getBoundingClientRect();
+        // включаем свет когда верх блока поднялся выше 60% высоты вьюпорта
         if (rect.top < window.innerHeight * 0.3) {
           slide2.classList.add('lights-on');
-        } else {
-          slide2.classList.remove('lights-on');
+          window.removeEventListener('scroll', check);
         }
       }
       window.addEventListener('scroll', check, { passive: true });
@@ -3081,66 +2197,19 @@
       }
     })();
 
-    // Mirror section entrance — fires once
+    // Mirror section entrance
     (function () {
       var section = document.getElementById('mirror');
       if (!section) return;
+      var triggered = false;
       var obs = new IntersectionObserver(function (entries) {
-        if (entries[0].isIntersecting) {
+        if (entries[0].isIntersecting && !triggered) {
+          triggered = true;
           section.classList.add('mirror-visible');
           obs.disconnect();
         }
       }, { threshold: 0.2 });
       obs.observe(section);
-    })();
-
-    // Mat block: row carousels
-    (function(){
-      var VISIBLE = 4;
-      var GAP = 14;
-      var DUR = 550;
-
-      document.querySelectorAll('.mat-row').forEach(function(row) {
-        var track    = row.querySelector('.mat-track');
-        var viewport = row.querySelector('.mat-track-viewport');
-        var prev     = row.querySelector('.mat-row-arrow.prev');
-        var next     = row.querySelector('.mat-row-arrow.next');
-        if (!track || !viewport || !prev || !next) return;
-        var busy = false;
-
-        function step() {
-          var vw = viewport.clientWidth - 52;
-          return (vw - GAP * (VISIBLE - 1)) / VISIBLE + GAP;
-        }
-        function lock() { busy = true; setTimeout(function(){ busy = false; }, DUR + 30); }
-
-        next.addEventListener('click', function() {
-          if (busy) return;
-          lock();
-          var dx = step();
-          track.style.transition = 'transform ' + DUR + 'ms cubic-bezier(.65,.05,.25,1)';
-          track.style.transform  = 'translateX(' + (-dx) + 'px)';
-          setTimeout(function() {
-            track.style.transition = 'none';
-            track.appendChild(track.firstElementChild);
-            track.style.transform = 'translateX(0)';
-            void track.offsetWidth;
-            track.style.transition = '';
-          }, DUR);
-        });
-
-        prev.addEventListener('click', function() {
-          if (busy) return;
-          lock();
-          var dx = step();
-          track.style.transition = 'none';
-          track.insertBefore(track.lastElementChild, track.firstElementChild);
-          track.style.transform = 'translateX(' + (-dx) + 'px)';
-          void track.offsetWidth;
-          track.style.transition = 'transform ' + DUR + 'ms cubic-bezier(.65,.05,.25,1)';
-          track.style.transform  = 'translateX(0)';
-        });
-      });
     })();
 
     // Mat block: text entrance + cabinet light show on first scroll
@@ -3168,28 +2237,6 @@
         setTimeout(function () { setLit([]); }, t);
       }
 
-      // overlap: наезд пропорционален скролу в обе стороны
-      // margin-top: -250px задан в CSS константой; translateY компенсирует его при скролле
-      var OVERLAP_MAX = 250;
-      var OVERLAP_RANGE = 1100;
-      function updateOverlap() {
-        var top = block.getBoundingClientRect().top;
-        var vh  = window.innerHeight;
-        var progress = (vh - top) / OVERLAP_RANGE;
-        var offset;
-        if (progress <= 0) {
-          offset = OVERLAP_MAX;
-        } else if (progress >= 1) {
-          offset = 0;
-        } else {
-          var e = progress * progress * (3 - 2 * progress);
-          offset = Math.round(OVERLAP_MAX * (1 - e));
-        }
-        block.style.transform = 'translateY(' + offset + 'px)';
-      }
-      window.addEventListener('scroll', updateOverlap, { passive: true });
-      updateOverlap();
-
       var obs = new IntersectionObserver(function (entries) {
         if (entries[0].isIntersecting && !triggered) {
           triggered = true;
@@ -3201,7 +2248,6 @@
 
       obs.observe(block);
     })();
-
 
     // Materials block scale-to-fit
     (function(){
@@ -3215,276 +2261,6 @@
       }
       fitMat();
       window.addEventListener('resize', fitMat);
-    })();
-
-    // Hero heading word-flash reveal (lightning-style, word by word)
-    (function () {
-      var heading = document.querySelector('.hero__heading');
-      if (!heading) return;
-      requestAnimationFrame(function () {
-        requestAnimationFrame(function () {
-          heading.classList.add('hero__heading--visible');
-        });
-      });
-    })();
-
-    // mat-h1 char slide-up (titangatequity-style)
-    (function () {
-      const heading = document.querySelector('.mat-h1');
-      if (!heading) return;
-
-      var charIndex = 0;
-
-      function splitNode(node) {
-        if (node.nodeType !== 3) return; // only text nodes; <br> left as-is
-        var text = node.textContent;
-        var parts = text.split(/(\s+)/);
-        var frag  = document.createDocumentFragment();
-
-        parts.forEach(function (part) {
-          if (!part) return;
-          if (/^\s+$/.test(part)) {
-            frag.appendChild(document.createTextNode(part));
-            return;
-          }
-          var wordEl = document.createElement('span');
-          wordEl.className = 'mat-word';
-          Array.from(part).forEach(function (ch) {
-            var charEl = document.createElement('span');
-            charEl.className = 'mat-char';
-            charEl.textContent = ch;
-            charEl.style.transitionDelay = (charIndex * 0.028) + 's';
-            charIndex++;
-            wordEl.appendChild(charEl);
-          });
-          frag.appendChild(wordEl);
-        });
-
-        node.parentNode.replaceChild(frag, node);
-      }
-
-      Array.from(heading.childNodes).forEach(splitNode);
-
-      var block = document.querySelector('.mat-block');
-      if (!block) return;
-
-      var obs = new IntersectionObserver(function (entries) {
-        if (entries[0].isIntersecting) {
-          heading.classList.add('mat-h1--visible');
-          obs.disconnect();
-        }
-      }, { threshold: 0.12 });
-      obs.observe(block);
-    })();
-
-    // Nav sliding pill
-    (function () {
-      var pill     = document.getElementById('nav-pill');
-      var navLinks = document.getElementById('nav-links');
-      if (!pill || !navLinks) return;
-
-      var links = Array.from(navLinks.querySelectorAll('a[data-section]'));
-
-      // Sections in page order (matches DOM)
-      var sections = links
-        .map(function (a) { return document.getElementById(a.dataset.section); })
-        .filter(Boolean);
-
-      var currentId = null;
-
-      function moveTo(link) {
-        var parentRect = navLinks.getBoundingClientRect();
-        var rect = link.getBoundingClientRect();
-        pill.style.left  = (rect.left - parentRect.left) + 'px';
-        pill.style.width = rect.width + 'px';
-        pill.style.opacity = '1';
-      }
-
-      function setActive(id) {
-        if (id === currentId) return;
-        currentId = id;
-        links.forEach(function (a) { a.classList.remove('active'); });
-        var link = links.find(function (a) { return a.dataset.section === id; });
-        if (link) { link.classList.add('active'); moveTo(link); }
-        else { pill.style.opacity = '0'; }
-      }
-
-      // Scroll tracking: active = last section whose top passed 35% of viewport
-      // getBoundingClientRect+scrollY handles sticky/negative-margin sections correctly
-      function onScroll() {
-        var threshold = window.scrollY + window.innerHeight * 0.35;
-        var activeId = null;
-        sections.forEach(function (s) {
-          var docTop = s.getBoundingClientRect().top + window.scrollY;
-          if (docTop <= threshold) activeId = s.id;
-        });
-        setActive(activeId);
-      }
-
-      // Click: move pill instantly then scroll
-      links.forEach(function (link) {
-        link.addEventListener('click', function (e) {
-          var target = document.getElementById(link.dataset.section);
-          if (target) {
-            e.preventDefault();
-            links.forEach(function (a) { a.classList.remove('active'); });
-            link.classList.add('active');
-            currentId = link.dataset.section;
-            moveTo(link);
-            target.scrollIntoView({ behavior: 'smooth' });
-          }
-        });
-      });
-
-      // Reposition pill on resize
-      window.addEventListener('resize', function () {
-        var active = navLinks.querySelector('a.active');
-        if (active) moveTo(active);
-      }, { passive: true });
-
-      window.addEventListener('scroll', onScroll, { passive: true });
-
-      // Init on load
-      window.addEventListener('load', function () {
-        onScroll();
-        // if nothing matched yet, default to first section
-        if (!currentId && links.length) {
-          links[0].classList.add('active');
-          currentId = links[0].dataset.section;
-          moveTo(links[0]);
-        }
-      });
-    })();
-
-    /* ── Card Scatter: init stacked positions ── */
-    (function () {
-      var layer = document.getElementById('cstack-layer');
-      if (!layer) return;
-      var tiles = Array.from(layer.querySelectorAll('.cstack-tile'));
-      tiles.forEach(function (t, i) {
-        var ang = (i / tiles.length) * Math.PI * 2;
-        var r   = 5 + (i % 3) * 3;
-        t.style.setProperty('--ctx', (Math.cos(ang) * r).toFixed(1) + 'px');
-        t.style.setProperty('--cty', (Math.sin(ang) * r).toFixed(1) + 'px');
-        t.style.setProperty('--ctr', (((i * 37) % 14) - 7).toFixed(1) + 'deg');
-        t.style.setProperty('--csc', '1');
-        t.style.zIndex = String(10 + Number(t.dataset.z || 1));
-      });
-    })();
-
-    /* ── Card scatter trigger (IntersectionObserver) ── */
-    (function () {
-      var stage   = document.getElementById('cstack-stage');
-      var layer   = document.getElementById('cstack-layer');
-      if (!stage || !layer) return;
-
-      var tiles     = Array.from(layer.querySelectorAll('.cstack-tile'));
-      var scattered = false;
-
-      function stack() {
-        if (!scattered) return;
-        scattered = false;
-        tiles.forEach(function (t, i) {
-          var ang = (i / tiles.length) * Math.PI * 2;
-          var r   = 5 + (i % 3) * 3;
-          t.style.setProperty('--ctx', (Math.cos(ang) * r).toFixed(1) + 'px');
-          t.style.setProperty('--cty', (Math.sin(ang) * r).toFixed(1) + 'px');
-          t.style.setProperty('--ctr', (((i * 37) % 14) - 7).toFixed(1) + 'deg');
-          t.style.setProperty('--csc', '1');
-        });
-      }
-
-      function scatter() {
-        if (scattered) return;
-        scattered = true;
-        var vw = window.innerWidth;
-        var vh = window.innerHeight;
-        var maxX = vw * 0.68;
-        var maxY = vh * 0.38;
-        tiles.forEach(function (t) {
-          var tx  = parseFloat(t.dataset.tx)  / 100 * maxX;
-          var ty  = parseFloat(t.dataset.ty)  / 100 * maxY;
-          var rot = parseFloat(t.dataset.rot);
-          t.style.setProperty('--ctx', tx.toFixed(2)  + 'px');
-          t.style.setProperty('--cty', ty.toFixed(2)  + 'px');
-          t.style.setProperty('--ctr', rot.toFixed(2) + 'deg');
-          t.style.setProperty('--csc', '0.95');
-        });
-      }
-
-      new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (e.isIntersecting) scatter(); else stack();
-        });
-      }, { threshold: 0.35 }).observe(stage);
-    })();
-
-    // ── Nav morph: full bar → circle in corner ──────────────────
-    (function () {
-      var navWrap = document.getElementById('navWrap');
-      var nav     = document.getElementById('nav');
-      var sheet   = document.getElementById('navSheet');
-      var hero    = document.getElementById('hero');
-      if (!navWrap || !nav || !sheet || !hero) return;
-
-      var CIRCLE = 60, MARGIN = 28;
-
-      function recomputeTarget() {
-        var halfW  = window.innerWidth / 2;
-        var tx     = halfW - MARGIN - CIRCLE / 2;
-        var ty     = window.innerHeight - MARGIN - CIRCLE;
-        document.documentElement.style.setProperty('--tx', tx + 'px');
-        document.documentElement.style.setProperty('--ty', ty + 'px');
-      }
-      recomputeTarget();
-      window.addEventListener('resize', recomputeTarget, { passive: true });
-
-      var wasCollapsed = false;
-
-      function onScroll() {
-        var trigger    = hero.getBoundingClientRect().height * 0.7;
-        var collapsed  = window.scrollY > trigger;
-        if (collapsed === wasCollapsed) return;
-        wasCollapsed = collapsed;
-        navWrap.classList.toggle('collapsed', collapsed);
-        if (collapsed) {
-          navWrap.classList.add('just-collapsed');
-          setTimeout(function () { navWrap.classList.remove('just-collapsed'); }, 1700);
-        } else {
-          closeSheet();
-        }
-      }
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
-
-      function openSheet() {
-        navWrap.classList.add('nav-open');
-        sheet.classList.add('show');
-      }
-      function closeSheet() {
-        navWrap.classList.remove('nav-open');
-        sheet.classList.remove('show');
-      }
-
-      nav.addEventListener('click', function (e) {
-        if (!navWrap.classList.contains('collapsed')) return;
-        if (e.target.closest('a')) return;
-        if (navWrap.classList.contains('nav-open')) closeSheet();
-        else openSheet();
-      });
-
-      sheet.addEventListener('click', function (e) {
-        if (e.target === sheet) closeSheet();
-      });
-
-      // Close sheet when clicking a nav link inside it
-      sheet.querySelectorAll('a').forEach(function (a) {
-        a.addEventListener('click', function () { closeSheet(); });
-      });
-
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') closeSheet();
-      });
     })();
 
   </script>
